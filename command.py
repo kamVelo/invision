@@ -10,6 +10,7 @@ from longPosition import LongPosition as Long
 from shortPosition import ShortPosition as Short
 from order import Order
 import requests as rq
+from selenium.common.exceptions import NoSuchWindowException
 class command:
     def __init__(self, symbol):
 
@@ -161,4 +162,7 @@ class command:
 
             min = dt.today().minute
             sec = dt.today().second
-c = command("AA")
+try:
+    c = command("AAPL")
+except NoSuchWindowException:
+    print("Exiting trader.")
