@@ -142,12 +142,12 @@ class Classifier():
 
 
         #returns signal
-        """
-        if prediction==self.buy_signal:
+        if abs(self.buy_signal-pred) <= 0.2: #i.e long
             return Order.LONG
-        else: return Order.SHORT"""
-
-        return pred
+        elif abs(self.sell_signal-pred) <= 0.2: #i.e short
+            return Order.SHORT
+        else:
+            return Order.NONE
 """
 c = Classifier("BTAI")
 c.prepNN()
