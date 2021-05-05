@@ -1,11 +1,11 @@
 """
 this is a template class for all position types
 """
-from trader import Trader
+from t212executor import executor
 from datetime import datetime as dt
 import pandas as pd
 class Position:
-    def __init__(self, direction, trader:Trader):
+    def __init__(self, direction, trader:executor):
         self.direction = direction
         self.trader = trader
         self.opened = False

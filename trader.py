@@ -1,174 +1,168 @@
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
 from time import sleep
-from selenium.common.exceptions import JavascriptException
-from string import ascii_letters
-def convertNums(datum):
-    for i in datum:
-        print(i)
-class Trader():
-    """this class is the class for interacting with trading212.com"""
+from datetime import datetime as dt
+from t212executor import executor
+import os
+from download import download, getFeature
+from string import punctuation as special_chars
+from classifier import Classifier
+from positionManager import PositionManager
+from longPosition import LongPosition as Long
+from shortPosition import ShortPosition as Short
+from order import Order
+import requests as rq
+from selenium.common.exceptions import NoSuchWindowException
+class trader:
     def __init__(self, symbol):
-        """:param symbol of the instrument which is being traded e.g EURUSD or AAPL"""
-        self.symbol = symbol
-        self.start() #calls the start function
 
+        # validation routine for the symbol entered
+        self.symbol = symbol.upper()
+        if len(symbol) > 6 or any(spec in self.symbol for spec in special_chars):
+            print(f"Sorry, your ticker: {self.symbol} is longer than 6 characters long and thus invalid please re-enter the ticker and try again.")
+            exit(-1)
+            #exits the program if the symbol is invalid.
 
-    def start(self):
-        """starts the browser using chromedriver and selenium and gathers all necessary Javascript code etc."""
-        symbol = self.symbol
-        opts = Options() #options class for selenium
-        opts.headless = False # allows me to see the browser
-        self.browser = Chrome(options=opts) # initiates browser
-        self.browser.get("https://demo.trading212.com/") # gets the website
+        # checks to see if data is downloaded, if it isn't then download some
+        elif not os.path.isdir(self.symbol):
+            print("No data downloaded for this symbol.\n Downloading now...")
+            download(self.symbol)
 
-        #gets username and password entry boxes and fills with the username and password.
+        # gets the classifier and initialises it.
+        self.quant = Classifier(self.symbol)
+        self.quant.prepNN()
 
-        """this while loop accounts for the loading time regardless of internet speeds"""
-        sleep(3)
-        loggedIn = False
-        while not loggedIn:
-            try:
-                username = self.browser.find_element_by_id("username-real")
-                username.send_keys("trading213.3@gmail.com")
-                password = self.browser.find_element_by_id("pass-real")
-                password.send_keys("Btrbtr12")
-                password.submit()
-                loggedIn = True
-                print("LOGGED IN")
-            except JavascriptException:
-                print("ERROR")
-                pass
+        #gets the trader and starts it up
+        self.trader = executor(self.symbol)
 
-        #script to get the buy/sell buttons for given symbol
-        getButtons = "var box = document.querySelectorAll('[data-code=\""+symbol+"\"]');" \
-                     "var sellBtn = box[0].querySelectorAll('[data-dojo-attach-point=\"sellButtonNode\"]')[0];" \
-                     "var buyBtn = box[0].querySelectorAll('[data-dojo-attach-point=\"buyButtonNode\"]')[0];" \
-                     "return [sellBtn, buyBtn];"
-        #script to close an order
-        self.close = "var instrument = document.querySelectorAll('[data-code=\""+symbol+"\"]')[1];" \
-                "instrument.querySelectorAll('[data-column-id=\"close\"]')[0].click();"
+        #gets starting balance for the session:
+        self.init_bal = 0
+        while self.init_bal == 0:
+            self.init_bal = self.trader.getBalance()
 
-        #script to click accept when click button has been pressed
-        self.finalise = "document.querySelectorAll('[data-dojo-attach-point=\"controlsNode\"]')[0].querySelectorAll('[data-dojo-attach-point=\"firstButtonNode\"]')[0].click();"
+        #declaring and initialising core variables
+        self.feature = [[]] #feature matrix which will be used but is empty until it is gradually filled over an hour
+        self.position = None
+        self.pos_manager = PositionManager(self.symbol)
 
-        #script to return the current unrealised PL
-        self.getPL = "return document.querySelectorAll('[data-code=\""+symbol+"\"]')[1].querySelectorAll('[data-column-id=\"ppl\"]')[0].innerText;"
-
-        #script to return the current margin of the position
-        self.getMgn = "return document.querySelectorAll('[data-code=\""+symbol+"\"]')[1].getElementsByClassName(\"margin\")[0].innerText;"
-
-        self.getBal = "return document.getElementById(\"equity-total\").childNodes[3].innerText;"
-
-        self.getCPrice = "return document.querySelectorAll('[data-code=\"" + symbol + "\"]')[1].childNodes[5].innerText;"
-
-        self.getOPrice = "return document.querySelectorAll('[data-code=\"" + symbol + "\"]')[1].childNodes[4].innerText;"
-
-        self.changeQuantity = "document.querySelectorAll('[data-code=\""+symbol+"\"]')[0].childNodes[11].childNodes[0].childNodes[3].childNodes[3].childNodes[5].click();" \
-                          "list = document.querySelectorAll('[data-code=\""+symbol+"\"]')[0].childNodes[11].childNodes[0].childNodes[3].childNodes[5].childNodes[1].childNodes[1].childNodes[1].childNodes;" \
-                        "list[list.length-2].click();"
-
-        self.getQuanPos = "return document.querySelectorAll('[data-code=\""+symbol+"\"]')[1].childNodes[2].innerText"
-
-        """ensures we can get buttons regardless of loading speed."""
-
-        gotBTNS = False
-        while not gotBTNS:
-            try:
-                btns = self.browser.execute_script(getButtons)  # gets the buy and sell btns
-                self.sell, self.buy = btns[0], btns[1]  # gets the buttons from list above
-                gotBTNS = True
-            except JavascriptException:
-                pass
-
-    def buyOrder(self):
-        """buys amount of the instrument equivalent to about 80% of balance"""
-        self.setQuantity()
-        sleep(3)
-        self.buy.click()
-
-    def sellOrder(self):
-        """sells amount of the instrument equivalent to about 80% of balance. """
-        self.setQuantity()
-        sleep(3)
-        self.sell.click()
-
-    def closeOrder(self):
-        """closes the position"""
-        try:
-            self.browser.execute_script(self.close)
-        except JavascriptException:
-            return False
-
-        finalised = False
-        while not finalised:
-            try:
-                self.browser.execute_script(self.finalise)
-                finalised = True
-            except JavascriptException:
-                pass
-        return finalised
-
-
-    def getProfit(self):
-        """:return profit made from position
-        :except if there is no position"""
-        try:
-            return float(self.browser.execute_script(self.getPL).replace(u'\xa0',u''))
-        except JavascriptException:
-            return None
-    def getMargin(self):
-        """:return margin on the position open
-        :except if there is no position"""
-        try:
-            return float(self.browser.execute_script(self.getMgn).replace(u'\xa0',u''))
-        except JavascriptException:
-            return None
-
-    def getCurrentPrice(self):
+        #getting url based on whether or not it is a
+        #starts up the operation
+        self.run()
+    def run(self):
         """
-        :except: if there's an error with the site.
-        :return: the price of the instrument
+        this function is what brings together all the operations.
+        it will act as the user interface and provide all information to the user.
+
+        :return:
         """
-        cur_price = None
-        while not cur_price:
+
+
+        #anncounces that trader is starting
+        print("*--------------------------------------------------------------*")
+        print("*----------------------- VERY IMPORTANT -----------------------*")
+        print("*--------------------------------------------------------------*")
+
+        print(f"*                          {dt.today()}          *")
+        print("*                        STARTING TRADER                       *")
+        print("*--------------------------------------------------------------*")
+
+
+        min = dt.today().minute
+        sec = dt.today().second
+
+        #run this loop theoretically forever
+        goForTrade = True # this variable allows the trader to make a trade, it is reset to false after a trade has been made to prevent the trader from running twice or more in the same minute
+        goForBal = True
+        goForCheck = True
+        while True:
+            disallow = False
+            self.cur_bal = self.trader.getBalance()
+            if min % 5 == 0 and goForBal and self.cur_bal!=None:
+                print(f"\t\tCurrent Balance: {self.cur_bal} - Initial Balance: {self.init_bal} - Growth: {round((self.cur_bal/self.init_bal*100)-100, 2)}%")
+                goForBal = False
+            elif min%5!= 0:
+                goForBal = True
             try:
-                cur_price =  float(self.browser.execute_script(self.getCPrice).replace(u'\xa0',u''))
-            except JavascriptException:
+                if self.cur_bal/self.init_bal <= 0.85:
+                    print("*--------------------------------------------------------------*")
+                    print("*----------------------- VERY IMPORTANT -----------------------*")
+                    print("*--------------------------------------------------------------*")
+                    print("Balance has fallen too far. Closing trader and all open position(s)")
+                    print("*                          -------------                       *")
+
+                    if self.position:
+                        closed = self.position.close()
+                        if closed == False:
+                            print("*--------------------------------------------------------------*")
+                            print("*----------------------- VERY IMPORTANT -----------------------*")
+                            print("*--------------------------------------------------------------*")
+                            print("Position could not be closed. Major error. closing trader without further action. Please manually check the trading dashboard.")
+                            exit(-1)
+                        else:
+                            self.pos_manager.record(self.position)
+            except ZeroDivisionError and TypeError:
                 pass
-        return cur_price
 
+            if min==0 and goForTrade:
+                # every hour
+                try:
+                    self.feature = getFeature(self.symbol) #fills the feature using the getFeature function in download.py
+                    self.pred = self.quant.predict(self.feature)  # makes prediction using prediction matrix just created above
+                except rq.exceptions.SSLError:
+                    print("Error - No Data Available")
+                    self.pred = None
+                try:
+                    print(f"\t{dt.today()} - Prediction: {self.pred.name} | Current Position: {self.position.direction.name}") #prints out: time - Prediction: LONG/SHORT | Current Position: LONG/SHORT
+                except AttributeError:
+                    print(f"\t{dt.today()} - Prediction: {self.pred.name} ")
+                lastPos = self.pos_manager.getLastPosition() #gets the last position recorded
 
-    def getOpenPrice(self):
-        """
-        this gets the price a position was opened at
-        :return: the price the position was opened at
-        """
-        open_price = None
-        while not open_price:
-            try:
-                open_price = float(self.browser.execute_script(self.getOPrice).replace(u'\xa0', u''))
-            except JavascriptException:
-                pass
-        return open_price
-    def getBalance(self):
-        try:
-            return float(self.browser.execute_script(self.getBal).replace('$','').replace(u'\xa0', u''))
-        except JavascriptException:
-            return None
+                if lastPos:
+                    if lastPos.direction == self.pred and lastPos.status == "LOSS": # if the last position recorded was in the same direction as this one and was a loss then disallow this trade.
+                        print("\t You must wait at least another period (1 hour) to open this position as the previous iteration of this position was a loss")
+                        disallow = True
+                #if there is already an open position
+                if self.position:
+                    #if the position is open in the same direction
+                    if self.position.direction == self.pred:
+                        print("\t\tPrediction in the same direction as the current position. Maintaining current position")
+                    #if it is open in an opposite direction
+                    else:
+                        #close the current position and record it
+                        self.position.close()
+                        self.pos_manager.record(self.position)
+                        self.position = None
+                        #open new position
+                        if self.pred:
 
-    def setQuantity(self):
-        try:
-            self.browser.execute_script(self.changeQuantity)
-            return True
-        except JavascriptException:
-            return None
-    def getQuantity(self):
-        quantity = None
-        while not quantity:
-            try:
-                quantity = float(self.browser.execute_script(self.getQuanPos).replace(u'\xa0', u''))
-            except JavascriptException:
-                pass
-        return quantity
+                            self.position = (Long(self.trader), Short(self.trader))[self.pred == Order.SHORT]
+                            self.position.open(disallow)
+                            print("-----------Position Information-----------------")
+                            print(f"{dt.today()} - {self.position.direction.name} {self.position.quantity} @ {self.position.open_price}")
+                #if no position is open
+                else:
+                    #open new position
+                    self.position = (Long(self.trader), Short(self.trader))[self.pred == Order.SHORT]
+                    self.position.open(disallow)
+                sleep(3)
+                goForTrade = False
+            elif min % 1 == 0 and goForCheck and min != 0 and sec == 0:
 
+                if self.position:
+                    print(f"{dt.today()} - Current P/L: {self.position.getProfit()} - Peak P/L: {self.position.peak} - Margin: {self.position.getMargin()}")
+                    closed, msg = self.position.check()
+                    if closed:
+                        self.pos_manager.record(self.position)
+                        self.position=None
+
+                    print(msg)
+                goForCheck = False
+            elif sec!=0:
+                goForCheck=True
+            elif min != 0:
+                goForTrade = True
+
+            min = dt.today().minute
+            sec = dt.today().second
+try:
+    c = trader("AAPL")
+except NoSuchWindowException:
+    print("Exiting trader.")

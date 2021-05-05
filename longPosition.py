@@ -1,13 +1,13 @@
 #imports
 from position import Position
-from trader import Trader
+from t212executor import executor
 from order import Order
 
 
 
 """this class inherits from the position class as a long position"""
 class LongPosition(Position):
-    def __init__(self, trader:Trader):
+    def __init__(self, trader:executor):
         super().__init__(Order.LONG, trader)
 
     def open(self, disallowed=False):
