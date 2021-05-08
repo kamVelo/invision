@@ -6,7 +6,16 @@ from datetime import datetime as dt
 from stock import Stock
 
 
-
+def isTradeable_212(stock:Stock):
+    """
+    this function checks if a stock is available to trade on trading 212.
+    :param stock: Stock object
+    :return: True/False for if the stock is tradeable or not.
+    """
+    symbol = stock.ticker
+    if dt.date().day == 1:
+        getT212Stocks()
+    tickers =
 def getT212Stocks():
     opts = Options()  # options class for selenium
     opts.headless = False  # allows me to see the browser
