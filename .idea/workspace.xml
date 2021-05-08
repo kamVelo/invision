@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="modified getT212Stocks to save data to file">
-      <change beforePath="$PROJECT_DIR$/T212Stocks.txt" beforeDir="false" afterPath="$PROJECT_DIR$/T212Stocks.txt" afterDir="false" />
+    <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="got rid of T212stocks.txt">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/T212Stocks.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/getInstrument.py" beforeDir="false" afterPath="$PROJECT_DIR$/getInstrument.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -144,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620499201217</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="got rid of T212stocks.txt">
+      <created>1620499421741</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1620499421741</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -163,6 +171,7 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="added function to get T212 stocks." />
     <MESSAGE value="modified getT212Stocks to save data to file" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified getT212Stocks to save data to file" />
+    <MESSAGE value="got rid of T212stocks.txt" />
+    <option name="LAST_COMMIT_MESSAGE" value="got rid of T212stocks.txt" />
   </component>
 </project>
