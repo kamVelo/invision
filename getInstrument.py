@@ -2,7 +2,9 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import JavascriptException,NoSuchElementException, StaleElementReferenceException
 from time import sleep
+from datetime import datetime as dt
 from stock import Stock
+
 
 
 def getT212Stocks():
@@ -36,14 +38,12 @@ def getT212Stocks():
     browser.execute_script("document.getElementsByClassName('search-folder')[22].childNodes[0].childNodes[1].childNodes[0].click()")
     sleep(3)
     raw_list = browser.find_elements_by_class_name('search-results-instrument')
-    tickers = []
+    record = open("T212Stocks.txt", "w")
     for el in raw_list:
         data = el.text.split('\n')
         ticker = data[0][data[0].find('(')+1:data[0].find(')')]
-
-        tickers.append(ticker)
-    input()
-    return tickers
+        record.write(f"{ticker}\n")
+    record.close()
 def getMovers():
     """
     this function gets all the biggest upward movers from finviz.com under $5
@@ -76,5 +76,4 @@ def getMovers():
             data = stock.text.split("\n")
             ret_list.append(Stock(data[1], float(data[10])))
     return ret_list
-
-print(getT212Stocks())
+getT212Stocks()
