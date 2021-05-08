@@ -1,6 +1,6 @@
 from time import sleep
 from datetime import datetime as dt
-from t212executor import executor
+from t212executor import Executor
 import os
 from download import download, getFeature
 from string import punctuation as special_chars
@@ -31,19 +31,18 @@ class trader:
         self.quant.prepNN()
 
         #gets the trader and starts it up
-        self.trader = executor(self.symbol)
+        self.executor = Executor(self.symbol)
 
         #gets starting balance for the session:
         self.init_bal = 0
         while self.init_bal == 0:
-            self.init_bal = self.trader.getBalance()
+            self.init_bal = self.executor.getBalance()
 
         #declaring and initialising core variables
         self.feature = [[]] #feature matrix which will be used but is empty until it is gradually filled over an hour
         self.position = None
         self.pos_manager = PositionManager(self.symbol)
 
-        #getting url based on whether or not it is a
         #starts up the operation
         self.run()
     def run(self):
@@ -74,11 +73,11 @@ class trader:
         goForCheck = True
         while True:
             disallow = False
-            self.cur_bal = self.trader.getBalance()
+            self.cur_bal = self.executor.getBalance()
             if min % 5 == 0 and goForBal and self.cur_bal!=None:
                 print(f"\t\tCurrent Balance: {self.cur_bal} - Initial Balance: {self.init_bal} - Growth: {round((self.cur_bal/self.init_bal*100)-100, 2)}%")
                 goForBal = False
-            elif min%5!= 0:
+            elif min%5 != 0:
                 goForBal = True
             try:
                 if self.cur_bal/self.init_bal <= 0.85:
@@ -111,13 +110,13 @@ class trader:
                     self.pred = None
                 try:
                     print(f"\t{dt.today()} - Prediction: {self.pred.name} | Current Position: {self.position.direction.name}") #prints out: time - Prediction: LONG/SHORT | Current Position: LONG/SHORT
-                except AttributeError:
+                except AttributeError: #this will occur if no position is currenlty open
                     print(f"\t{dt.today()} - Prediction: {self.pred.name} ")
                 lastPos = self.pos_manager.getLastPosition() #gets the last position recorded
 
                 if lastPos:
                     if lastPos.direction == self.pred and lastPos.status == "LOSS": # if the last position recorded was in the same direction as this one and was a loss then disallow this trade.
-                        print("\t You must wait at least another period (1 hour) to open this position as the previous iteration of this position was a loss")
+                        print("\t Must wait at least another period (1 hour) to open this position as the previous iteration of this position was a loss")
                         disallow = True
                 #if there is already an open position
                 if self.position:
@@ -133,15 +132,21 @@ class trader:
                         #open new position
                         if self.pred:
 
-                            self.position = (Long(self.trader), Short(self.trader))[self.pred == Order.SHORT]
-                            self.position.open(disallow)
-                            print("-----------Position Information-----------------")
-                            print(f"{dt.today()} - {self.position.direction.name} {self.position.quantity} @ {self.position.open_price}")
+                            if self.pred != Order.NONE:
+                                self.position = (Long(self.executor), Short(self.executor))[self.pred == Order.SHORT]
+
                 #if no position is open
                 else:
                     #open new position
-                    self.position = (Long(self.trader), Short(self.trader))[self.pred == Order.SHORT]
-                    self.position.open(disallow)
+                    if self.pred != Order.NONE:
+                        self.position = (Long(self.executor), Short(self.executor))[self.pred == Order.SHORT]
+
+                #disallow flag is by default set to False.
+                self.position.open(disallow)
+
+                #prints off information about just opened position to user.
+                print("-----------Position Information-----------------")
+                print(f"{dt.today()} - {self.position.direction.name} {self.position.quantity} @ {self.position.open_price}")
                 sleep(3)
                 goForTrade = False
             elif min % 1 == 0 and goForCheck and min != 0 and sec == 0:

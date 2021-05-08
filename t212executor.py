@@ -6,7 +6,7 @@ from string import ascii_letters
 def convertNums(datum):
     for i in datum:
         print(i)
-class executor():
+class Executor():
     """this class is the class for interacting with trading212.com"""
     def __init__(self, symbol):
         """:param symbol of the instrument which is being traded e.g EURUSD or AAPL"""
