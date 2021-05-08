@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/t212executor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/longPosition.py" beforeDir="false" afterPath="$PROJECT_DIR$/longPosition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shortPosition.py" beforeDir="false" afterPath="$PROJECT_DIR$/shortPosition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trader.py" beforeDir="false" afterPath="$PROJECT_DIR$/trader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/getInstrument.py" beforeDir="false" afterPath="$PROJECT_DIR$/getInstrument.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/t212executor.py" beforeDir="false" afterPath="$PROJECT_DIR$/t212executor.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

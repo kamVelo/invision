@@ -35,7 +35,6 @@ class executor():
                 password.send_keys("Btrbtr12")
                 password.submit()
                 loggedIn = True
-                print("LOGGED IN")
             except JavascriptException:
                 print("ERROR")
                 pass

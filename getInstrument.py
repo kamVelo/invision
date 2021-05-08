@@ -3,6 +3,47 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import JavascriptException,NoSuchElementException, StaleElementReferenceException
 from time import sleep
 from stock import Stock
+
+
+def getT212Stocks():
+    opts = Options()  # options class for selenium
+    opts.headless = False  # allows me to see the browser
+    browser = Chrome(options=opts)  # initiates browser
+    browser.get("https://demo.trading212.com/")  # gets the website
+
+    # gets username and password entry boxes and fills with the username and password.
+
+    """this while loop accounts for the loading time regardless of internet speeds"""
+    sleep(3)
+    loggedIn = False
+    while not loggedIn:
+        try:
+            username = browser.find_element_by_id("username-real")
+            username.send_keys("trading213.3@gmail.com")
+            password = browser.find_element_by_id("pass-real")
+            password.send_keys("Btrbtr12")
+            password.submit()
+            loggedIn = True
+        except JavascriptException:
+            print("ERROR")
+            pass
+    sleep(3)
+    browser.find_element_by_id("navigation-search-button").click() #opens search box
+    sleep(3)
+    browser.find_element_by_css_selector("div[data-folder-key='stocks']").click() #opens up stock folder
+    sleep(3)
+    # below code clicks finds USA button and clicks it to refine by USA.
+    browser.execute_script("document.getElementsByClassName('search-folder')[22].childNodes[0].childNodes[1].childNodes[0].click()")
+    sleep(3)
+    raw_list = browser.find_elements_by_class_name('search-results-instrument')
+    tickers = []
+    for el in raw_list:
+        data = el.text.split('\n')
+        ticker = data[0][data[0].find('(')+1:data[0].find(')')]
+
+        tickers.append(ticker)
+    input()
+    return tickers
 def getMovers():
     """
     this function gets all the biggest upward movers from finviz.com under $5
@@ -35,3 +76,5 @@ def getMovers():
             data = stock.text.split("\n")
             ret_list.append(Stock(data[1], float(data[10])))
     return ret_list
+
+print(getT212Stocks())
