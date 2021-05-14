@@ -17,10 +17,10 @@ def isTradeable_212(stock:Stock):
         getT212Stocks()
     record = open("T212Stocks.txt", "r")
     tickers = record.read().split('\n')
-    is_tradeable = False
     if symbol in tickers:
-        is_tradeable = True
-    return is_tradeable
+        return True
+    else:
+        return False
 def getT212Stocks():
     opts = Options()  # options class for selenium
     opts.headless = False  # allows me to see the browser
@@ -48,8 +48,9 @@ def getT212Stocks():
     sleep(5)
     browser.find_element_by_css_selector("div[data-folder-key='stocks']").click() #opens up stock folder
     sleep(5)
-    # below code clicks finds USA button and clicks it to refine by USA.
-    browser.execute_script("document.getElementsByClassName('search-folder')[22].childNodes[0].childNodes[1].childNodes[0].click()")
+    # below gets the USA stock folder and clicks on it.
+    # ignore childNodes
+    browser.execute_script('document.querySelector(\'[data-folder-key="usa"]\').childNodes[0].childNodes[1].click()')
     sleep(5)
     raw_list = browser.find_elements_by_class_name('search-results-instrument')
     record = open("T212Stocks.txt", "w")
@@ -78,6 +79,8 @@ def getMovers():
         darkstocks = browser.execute_script("return document.getElementsByClassName('table-dark-row-cp')")
         lightstocks = browser.execute_script("return document.getElementsByClassName('table-light-row-cp')")
     except Exception:  # just in case the cookies pop-up is too quick, clicks on accept
+        browser.find_element_by_xpath('//*[text()="Read more to accept preferences 1/3"]').click()
+        sleep(1)
         browser.find_element_by_xpath('//*[@title="Scroll to the bottom of the text below to enable this button"]').click()
     ret_list = []  # list of Stock objects to be appended
     # for loop iterates through length of the stock (assumes both lists are equal length, which they are for now)
@@ -87,5 +90,18 @@ def getMovers():
         # for both stocks append their Stock objects to the return list.
         for stock in pair:
             data = stock.text.split("\n")
-            ret_list.append(Stock(data[1], float(data[10])))
+            try:
+                ret_list.append(Stock(data[1], float(data[10])))
+            except IndexError:
+                pass
     return ret_list
+
+def getT212Primary():
+    """
+    this function gets the best stock within the parameters set on finviz.com that is tradeable with T212
+    :return: Stock object
+    """
+    movers = getMovers()
+    for opt in movers:
+        if isTradeable_212(opt):
+            return opt

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="added is_tradeable function for trading 212">
+    <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="refactored executor -&gt; Executor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/longPosition.py" beforeDir="false" afterPath="$PROJECT_DIR$/longPosition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shortPosition.py" beforeDir="false" afterPath="$PROJECT_DIR$/shortPosition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/t212executor.py" beforeDir="false" afterPath="$PROJECT_DIR$/t212executor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trader.py" beforeDir="false" afterPath="$PROJECT_DIR$/trader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/getInstrument.py" beforeDir="false" afterPath="$PROJECT_DIR$/getInstrument.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,7 +156,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620499909644</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="refactored executor -&gt; Executor">
+      <created>1620500801818</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1620500801818</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -181,6 +184,7 @@
     <MESSAGE value="modified getT212Stocks to save data to file" />
     <MESSAGE value="got rid of T212stocks.txt" />
     <MESSAGE value="added is_tradeable function for trading 212" />
-    <option name="LAST_COMMIT_MESSAGE" value="added is_tradeable function for trading 212" />
+    <MESSAGE value="refactored executor -&gt; Executor" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactored executor -&gt; Executor" />
   </component>
 </project>
