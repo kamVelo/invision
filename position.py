@@ -53,6 +53,8 @@ class Position:
         return self.trader.getProfit()
     def getMargin(self):
         return self.trader.getMargin()
+
+
 def posFromSeries(row:pd.Series):
     if not row:
         close_time = row["timestamp"]
