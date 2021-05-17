@@ -46,27 +46,34 @@ class IB(EClient,EWrapper):
         if reqId != -1: # i.e if not a notification
             print(f"ERROR:: Code:{errorCode} - {errorString}")
 
-    def order(self, symbol, direction, quantity):
+    def order(self, instrument, direction, quantity):
         """
         function to allow market orders to be created and placed
-        :param symbol: the instrument's symbol
+        :param instrument: the instrument's symbol
         :param direction: i.e BUY or SELL
         :param quantity: number of shares
         :return: True/False for order PLACED (not necessarily successful just placed)
         """
-        if len(symbol) == 6: # if it is a forex pair
+        contract = Contract()
+        if len(instrument) == 6: # if it is a forex pair
             sec_type = "CASH"
-        elif len(symbol) <= 5: # if it is a stock
+            symbol = instrument.upper()[0:3]
+            currency = instrument.upper()[3:6]
+
+            exchange = "IDEALPRO"
+        elif len(instrument) <= 5: # if it is a stock
             sec_type = "STK"
+            currency = "USD"
+            contract.primaryExchange = "ISLAND"
+            exchange = "SMART"
         else: # if it is neither stock or forex pair refuse to place order, return False for failed order.
             return False
         # creates Contract object and fills necessary data
-        contract = Contract()
-        contract.symbol = symbol.upper()
+
+        contract.symbol = symbol
         contract.secType = sec_type
-        contract.currency = "USD"
-        contract.primaryExchange = "ISLAND"
-        contract.exchange = "SMART"
+        contract.currency = currency
+        contract.exchange = exchange
 
         # creates order and fills out details
         order = Order()
@@ -74,9 +81,13 @@ class IB(EClient,EWrapper):
         order.orderType = "MKT"
         order.totalQuantity = quantity
         # gets latest order id
+        old_val = self.nextValidOrderId
         self.reqIds(-1)
+        while self.nextValidOrderId == old_val and self.orderMade:  # waits until order id updated.
+            pass
         # places the order and returns True since no errors would have been raised by this point.
         self.placeOrder(self.nextValidOrderId, contract, order)
+        self.orderMade = True
         return True
 
     def accountSummary(self, reqId:int, account:str, tag:str, value:str,currency:str):
@@ -89,7 +100,7 @@ class IB(EClient,EWrapper):
         :param currency: currency that value is in.
         :return: None
         """
-        if tag == "AvailableFunds": # for getBalanec
+        if tag == "AvailableFunds": # for getBalance
             self.balance = float(value)
 
     def getBalance(self):
@@ -103,9 +114,13 @@ class IB(EClient,EWrapper):
             pass
         return self.balance
 
-    def position(self, account:str, contract:Contract, position:float,avgCost:float):
-        print(f"position: {position}")
-        print(f"avgCost: {avgCost}")
+    def position(self, account: str, contract: Contract, position: float, avgCost: float):
+        if contract.secType == 'STK':
+            print(f"symbol: {contract.symbol}")
+        elif contract.secType == 'CASH':
+            print(f"symbol: {contract.symbol}.{contract.currency}")
+        print(f"\tposition: {position}")
+        print(f"\tavgCost: {avgCost}")
 
     def positionEnd(self):
         print("END")
