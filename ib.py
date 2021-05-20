@@ -7,9 +7,14 @@ import logging
 from time import sleep
 from threading import Thread
 import atexit
-
+from position import Position
+from shortPosition import ShortPosition
+from longPosition import LongPosition
 class IB(EClient,EWrapper):
     def __init__(self):
+        self.positionReceived = False
+        self.orderMade = False
+        self.raw_pos = []
         # necessary instantiations per IBAPI documentation
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
@@ -55,6 +60,7 @@ class IB(EClient,EWrapper):
         :return: True/False for order PLACED (not necessarily successful just placed)
         """
         contract = Contract()
+        symbol = instrument
         if len(instrument) == 6: # if it is a forex pair
             sec_type = "CASH"
             symbol = instrument.upper()[0:3]
@@ -88,6 +94,8 @@ class IB(EClient,EWrapper):
         # places the order and returns True since no errors would have been raised by this point.
         self.placeOrder(self.nextValidOrderId, contract, order)
         self.orderMade = True
+        pos = (ShortPosition(self), LongPosition(self))[direction=="BUY"]
+
         return True
 
     def accountSummary(self, reqId:int, account:str, tag:str, value:str,currency:str):
@@ -102,7 +110,8 @@ class IB(EClient,EWrapper):
         """
         if tag == "AvailableFunds": # for getBalance
             self.balance = float(value)
-
+    def accountSummaryEnd(self, reqId:int):
+        self.accountSummaryReceived = True
     def getBalance(self):
         """
         gets the available funds for trading from TWS
@@ -115,15 +124,39 @@ class IB(EClient,EWrapper):
         return self.balance
 
     def position(self, account: str, contract: Contract, position: float, avgCost: float):
+        """
+        EWrapper method. called when EClient.reqPositions() or when position opened.
+        :param account: account order made with
+        :param contract: contract of this position
+        :param position: number of shares
+        :param avgCost: cost trade made at
+        :return: None
+        """
+        pos = {}
         if contract.secType == 'STK':
-            print(f"symbol: {contract.symbol}")
+            inst_symbol = contract.symbol
         elif contract.secType == 'CASH':
-            print(f"symbol: {contract.symbol}.{contract.currency}")
-        print(f"\tposition: {position}")
-        print(f"\tavgCost: {avgCost}")
+            inst_symbol = contract.symbol+contract.currency
+        pos["symbol"] = inst_symbol
+        pos["no. shares"] = position
+        pos["open prices"] = avgCost
+        pos["margin"] = avgCost * position
+
+        self.raw_pos.append(pos)
 
     def positionEnd(self):
-        print("END")
+        self.positionReceived = True
+
+    def getMargin(self, symbol):
+        self.raw_pos = []
+        self.positionReceived = False
+        self.reqPositions() # use eclient method to get position info.
+        while not self.positionReceived: # waits for the position information to be fully received using positionEnd()
+            pass
+        for pos in self.raw_pos:
+            if pos["symbol"] == symbol:
+                return pos["margin"] # if the position is found return this.
+        return None # if no position is found None will be returned
 
     def end(self):
         print("TRADER DISCONNECTING")
