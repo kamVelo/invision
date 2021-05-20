@@ -145,9 +145,18 @@ class IB(EClient,EWrapper):
         self.raw_pos.append(pos)
 
     def positionEnd(self):
+        """
+        called when all the position information has been sent.
+        :return: None
+        """
         self.positionReceived = True
 
     def getMargin(self, symbol):
+        """
+        function to get the margin of any given position using EClient.reqPositions()
+        :param symbol: symbol of the stock whose margin is being requested
+        :return: float margin of the stock.
+        """
         self.raw_pos = []
         self.positionReceived = False
         self.reqPositions() # use eclient method to get position info.
