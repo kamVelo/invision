@@ -1,4 +1,5 @@
-from ibapi.common import TickerId
+from ibapi.common import TickerId, TickAttrib
+from ibapi.ticktype import TickType
 from ibapi.wrapper import EWrapper
 from ibapi.client import EClient
 from ibapi.contract import Contract
@@ -10,6 +11,7 @@ import atexit
 from position import Position
 from shortPosition import ShortPosition
 from longPosition import LongPosition
+from yahoo_fin.stock_info import  get_live_price
 class IB(EClient,EWrapper):
     def __init__(self):
         self.positionReceived = False
@@ -167,6 +169,14 @@ class IB(EClient,EWrapper):
                 return pos["margin"] # if the position is found return this.
         return None # if no position is found None will be returned
 
+    def getPrice(self,symbol):
+        """
+        gets the price of ticker specified.
+        just uses yahoo_fin library because its simpler + quicker than using ibapi.
+        :param symbol: symbol for the data to be retrieved.
+        :return: Float - current price.
+        """
+        return get_live_price(symbol)
     def end(self):
         print("TRADER DISCONNECTING")
         self.done = True
