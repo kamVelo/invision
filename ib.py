@@ -11,7 +11,7 @@ import atexit
 from position import Position
 from shortPosition import ShortPosition
 from longPosition import LongPosition
-from yahoo_fin.stock_info import  get_live_price
+from yahoo_fin.stock_info import get_live_price
 class IB(EClient,EWrapper):
     def __init__(self):
         self.positionReceived = False
@@ -177,6 +177,10 @@ class IB(EClient,EWrapper):
         :return: Float - current price.
         """
         return get_live_price(symbol)
+
+    def position(self, account: str, contract: Contract, position: float,avgCost: float):
+        print(contract.conId)
+
     def end(self):
         print("TRADER DISCONNECTING")
         self.done = True
