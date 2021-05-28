@@ -14,6 +14,8 @@ from longPosition import LongPosition
 from yahoo_fin.stock_info import get_live_price
 class IB(EClient,EWrapper):
     def __init__(self):
+        self.pnlReqId = 1
+        self.profit_requested = None
         self.positionReceived = False
         self.orderMade = False
         self.raw_pos = []
@@ -85,7 +87,7 @@ class IB(EClient,EWrapper):
 
         # creates order and fills out details
         order = Order()
-        order.action = direction
+        order.action = direction.upper()
         order.orderType = "MKT"
         order.totalQuantity = quantity
         # gets latest order id
@@ -114,6 +116,7 @@ class IB(EClient,EWrapper):
             self.balance = float(value)
     def accountSummaryEnd(self, reqId:int):
         self.accountSummaryReceived = True
+
     def getBalance(self):
         """
         gets the available funds for trading from TWS
@@ -140,17 +143,18 @@ class IB(EClient,EWrapper):
         elif contract.secType == 'CASH':
             inst_symbol = contract.symbol+contract.currency
         pos["symbol"] = inst_symbol
+        pos["contract"] = contract
         pos["no. shares"] = position
         pos["open prices"] = avgCost
         pos["margin"] = avgCost * position
 
         self.raw_pos.append(pos)
-
     def positionEnd(self):
         """
         called when all the position information has been sent.
         :return: None
         """
+        print("RECEIVED")
         self.positionReceived = True
 
     def getMargin(self, symbol):
@@ -178,9 +182,25 @@ class IB(EClient,EWrapper):
         """
         return get_live_price(symbol)
 
-    def position(self, account: str, contract: Contract, position: float,avgCost: float):
-        print(contract.conId)
 
+    def pnlSingle(self, reqId: int, pos: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
+        self.profit_requested = dailyPnL # this variable will contain the profit requested most recently.
+
+    def getProfit(self,symbol):
+        self.raw_pos = []
+        self.reqPositions()
+        while len(self.raw_pos) == 0:
+            pass
+        for pos in self.raw_pos:
+            if pos["symbol"] == symbol:
+                id = pos["contract"].conId
+                self.profit_requested = None
+                self.reqPnLSingle(self.pnlReqId, "DU3919760", "", id)
+                while self.profit_requested == None:
+                    pass
+                self.cancelPnLSingle(self.pnlReqId)
+                self.pnlReqId += 1
+                return self.profit_requested
     def end(self):
         print("TRADER DISCONNECTING")
         self.done = True
