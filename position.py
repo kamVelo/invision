@@ -5,17 +5,21 @@ from t212executor import Executor
 from datetime import datetime as dt
 import pandas as pd
 class Position:
-    def __init__(self, direction, trader:Executor):
+    def __init__(self, direction,shares,open_price, trader:Executor):
         self.direction = direction
+        self.posId = None
         self.trader = trader
         self.opened = False
         self.disallowed = False
-        self.open_price =  None
+        self.open_price =  open_price
+        self.shares = shares
         self.close_price = None
         self.pl = None
         self.close_time = None
-        self.quantity = None
         self.peak = None
+
+    def setConId(self, id):
+        self.posId = id
     def close(self):
         self.close_price = self.trader.getCurrentPrice()
         self.pl = self.trader.getProfit()
