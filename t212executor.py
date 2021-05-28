@@ -80,17 +80,14 @@ class Executor():
             except JavascriptException:
                 pass
 
-    def buyOrder(self):
-        """buys amount of the instrument equivalent to about 80% of balance"""
-        self.setQuantity()
-        sleep(3)
-        self.buy.click()
-
-    def sellOrder(self):
+    def order(self,direction):
         """sells amount of the instrument equivalent to about 80% of balance. """
         self.setQuantity()
         sleep(3)
-        self.sell.click()
+        if direction.upper() == "BUY":
+            self.buy.click()
+        elif direction.upper() == "SELL":
+            self.sell.click()
 
     def closeOrder(self):
         """closes the position"""
