@@ -11,6 +11,7 @@ from shortPosition import ShortPosition as Short
 from order import Order
 import requests as rq
 from selenium.common.exceptions import NoSuchWindowException
+from ib import IB
 class trader:
     def __init__(self, symbol):
 
@@ -31,7 +32,15 @@ class trader:
         self.quant.prepNN()
 
         #gets the trader and starts it up
-        self.executor = Executor(self.symbol)
+        if len(symbol) == 6: # if forex
+            self.executor = Executor(self.symbol)
+        elif len(symbol) <= 5: # if stock
+            self.executor = IB()
+            if not self.executor.isConnected():
+                print("TWS connection error.")
+                print("Check if application is open.")
+                print("EXITING TRADER")
+                exit(0)
 
         #gets starting balance for the session:
         self.init_bal = 0
