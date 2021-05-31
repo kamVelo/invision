@@ -1,5 +1,4 @@
 #imports
-from order import Order
 from sklearn.cluster import KMeans
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -143,11 +142,11 @@ class Classifier():
 
         #returns signal
         if abs(self.buy_signal-pred) <= 0.2: #i.e long
-            return Order.LONG
+            return "BUY"
         elif abs(self.sell_signal-pred) <= 0.2: #i.e short
-            return Order.SHORT
+            return "SELL"
         else:
-            return Order.NONE
+            return None
 """
 c = Classifier("BTAI")
 c.prepNN()

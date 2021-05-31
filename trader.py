@@ -1,14 +1,10 @@
 from time import sleep
 from datetime import datetime as dt
-from t212executor import Executor
 import os
 from download import download, getFeature
 from string import punctuation as special_chars
 from classifier import Classifier
 from positionManager import PositionManager
-from longPosition import LongPosition as Long
-from shortPosition import ShortPosition as Short
-from order import Order
 import requests as rq
 from selenium.common.exceptions import NoSuchWindowException
 from ib import IB
@@ -31,16 +27,18 @@ class trader:
         self.quant = Classifier(self.symbol)
         self.quant.prepNN()
 
-        #gets the trader and starts it up
-        if len(symbol) == 6: # if forex
-            self.executor = Executor(self.symbol)
-        elif len(symbol) <= 5: # if stock
+
+        if len(symbol) <= 5: # if stock
             self.executor = IB()
             if not self.executor.isConnected():
                 print("TWS connection error.")
                 print("Check if application is open.")
                 print("EXITING TRADER")
                 exit(0)
+        else:
+            print("INVALID SYMBOL")
+            print("EXITING TRADER")
+            exit(0)
 
         #gets starting balance for the session:
         self.init_bal = 0
@@ -118,9 +116,9 @@ class trader:
                     print("Error - No Data Available")
                     self.pred = None
                 try:
-                    print(f"\t{dt.today()} - Prediction: {self.pred.name} | Current Position: {self.position.direction.name}") #prints out: time - Prediction: LONG/SHORT | Current Position: LONG/SHORT
+                    print(f"\t{dt.today()} - Prediction: {self.pred} | Current Position: {self.position.direction}") #prints out: time - Prediction: LONG/SHORT | Current Position: LONG/SHORT
                 except AttributeError: #this will occur if no position is currenlty open
-                    print(f"\t{dt.today()} - Prediction: {self.pred.name} ")
+                    print(f"\t{dt.today()} - Prediction: {self.pred} ")
                 lastPos = self.pos_manager.getLastPosition() #gets the last position recorded
 
                 if lastPos:
@@ -141,21 +139,17 @@ class trader:
                         #open new position
                         if self.pred:
 
-                            if self.pred != Order.NONE:
-                                self.position = (Long(self.executor), Short(self.executor))[self.pred == Order.SHORT]
-
+                            if self.pred != None:
+                                self.position = self.executor.order(self.symbol, self.direction)
                 #if no position is open
                 else:
                     #open new position
-                    if self.pred != Order.NONE:
-                        self.position = (Long(self.executor), Short(self.executor))[self.pred == Order.SHORT]
-
-                #disallow flag is by default set to False.
-                self.position.open(disallow)
-
-                #prints off information about just opened position to user.
-                print("-----------Position Information-----------------")
-                print(f"{dt.today()} - {self.position.direction.name} {self.position.quantity} @ {self.position.open_price}")
+                    if self.pred != None:
+                        self.position = self.executor.order(self.symbol, self.direction)
+                if self.position:
+                    #prints off information about just opened position to user.
+                    print("-----------Position Information-----------------")
+                    print(f"{dt.today()} - {self.position.direction} {self.position.quantity} @ {self.position.open_price}")
                 sleep(3)
                 goForTrade = False
             elif min % 1 == 0 and goForCheck and min != 0 and sec == 0:

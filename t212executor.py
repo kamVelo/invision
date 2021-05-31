@@ -121,7 +121,7 @@ class Executor():
         except JavascriptException:
             return None
 
-    def getCurrentPrice(self):
+    def getPrice(self):
         """
         :except: if there's an error with the site.
         :return: the price of the instrument

@@ -1,10 +1,9 @@
 from t212executor import Executor
-from order import Order
 from position import Position
 
 class ShortPosition(Position):
     def __init__(self, trader:Executor):
-        super().__init__(Order.SHORT, trader)
+        super().__init__("SELL", trader)
 
     def open(self, disallowed=False):
 

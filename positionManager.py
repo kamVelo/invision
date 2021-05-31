@@ -1,7 +1,6 @@
 import pandas as pd
 from position import OldPosition
 from position import posFromSeries
-from order import Order
 import os
 from datetime import date as d, datetime as dt
 from position import Position

@@ -4,49 +4,55 @@ this is a template class for all position types
 from t212executor import Executor
 from datetime import datetime as dt
 import pandas as pd
+from ib import IB
+from yahoo_fin.stock_info import get_live_price
 class Position:
-    def __init__(self, direction,shares,open_price, trader:Executor):
+    def __init__(self,symbol,direction, trader:IB):
         self.direction = direction
         self.posId = None
         self.trader = trader
         self.opened = False
         self.disallowed = False
-        self.open_price =  open_price
-        self.shares = shares
+        self.open_price = None
+        self.shares = None
+        self.self.margin = None
         self.close_price = None
         self.pl = None
         self.close_time = None
         self.peak = None
-
-    def setConId(self, id):
-        self.posId = id
+        self.symbol = symbol
+    def open(self,disallow):
+        if not disallow:
+            self.shares = round(self.trader.getBalance()/self.getPrice(),0)
+            successful = self.trader.order(self.symbol, self.direction, self.shares)
+        return successful
     def close(self):
-        self.close_price = self.trader.getCurrentPrice()
+        self.close_price = self.trader.getPrice()
         self.pl = self.trader.getProfit()
         if self.opened:
-            self.closed = self.trader.closeOrder()
+            self.closed = self.trader.closePosition(self)
         else:
             self.closed = None
         self.close_time = dt.today()
         return self.closed
-
+    def getPrice(self):
+        return get_live_price(self.symbol)
     def check(self):
         profit = self.getProfit()
-        margin = self.getMargin()
         closed = None
-        if not profit or not margin:
+        if not profit or not self.margin:
             msg = "Data Error"
             return closed,msg
         if self.peak == None: self.peak = profit
         elif profit>self.peak:
             self.peak = profit
-        if profit/margin <=-0.05:
+        if profit/self.margin <=-0.05:
             msg = "\t\tUnrealised Loss is too great. Closing position."
             closed = self.close()
-        elif profit/margin >= 0.1:
+        elif profit/self.margin >= 0.1:
             msg = "\t\tProfit has exceeded 10% of margin. Closing position; securing profit."
             closed = self.close()
-        elif profit/self.peak <= 0.85 and self.peak/margin >= 0.025: # if profit is less than 15% of peak and the peak has exceeded 2.5% of the total margin
+        elif profit/self.peak <= 0.85 and self.peak/self.margin >= 0.025: # if profit is less than 15% of peak and the peak has exceeded 2.5% of the total self.margin
             msg = "\t\tProfit has descended from peak by more than 10% closing position."
             closed = self.close()
         else:
@@ -54,9 +60,9 @@ class Position:
         return closed, msg
 
     def getProfit(self):
-        return self.trader.getProfit()
-    def getMargin(self):
-        return self.trader.getMargin()
+        return self.trader.getProfit(self)
+    def getmargin(self):
+        return self.trader.getMargin(self.symbol)
 
 
 def posFromSeries(row:pd.Series):
