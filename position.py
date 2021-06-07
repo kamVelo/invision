@@ -4,10 +4,9 @@ this is a template class for all position types
 from t212executor import Executor
 from datetime import datetime as dt
 import pandas as pd
-from ib import IB
 from yahoo_fin.stock_info import get_live_price
 class Position:
-    def __init__(self,symbol,direction, trader:IB):
+    def __init__(self,symbol,direction, trader):
         self.direction = direction
         self.posId = None
         self.trader = trader
@@ -15,17 +14,12 @@ class Position:
         self.disallowed = False
         self.open_price = None
         self.shares = None
-        self.self.margin = None
+        self.margin = None
         self.close_price = None
         self.pl = None
         self.close_time = None
         self.peak = None
         self.symbol = symbol
-    def open(self,disallow):
-        if not disallow:
-            self.shares = round(self.trader.getBalance()/self.getPrice(),0)
-            successful = self.trader.order(self.symbol, self.direction, self.shares)
-        return successful
     def close(self):
         self.close_price = self.trader.getPrice()
         self.pl = self.trader.getProfit()
@@ -39,6 +33,7 @@ class Position:
         return get_live_price(self.symbol)
     def check(self):
         profit = self.getProfit()
+        self.margin = self.getMargin()
         closed = None
         if not profit or not self.margin:
             msg = "Data Error"
@@ -61,7 +56,7 @@ class Position:
 
     def getProfit(self):
         return self.trader.getProfit(self)
-    def getmargin(self):
+    def getMargin(self):
         return self.trader.getMargin(self.symbol)
 
 

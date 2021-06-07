@@ -70,7 +70,7 @@ class trader:
         print("*                        STARTING TRADER                       *")
         print("*--------------------------------------------------------------*")
 
-
+        hour = dt.today().hour
         min = dt.today().minute
         sec = dt.today().second
 
@@ -79,6 +79,8 @@ class trader:
         goForBal = True
         goForCheck = True
         while True:
+            if min  < 30 and hour < 14 or hour >= 21:
+                continue
             disallow = False
             self.cur_bal = self.executor.getBalance()
             if min % 5 == 0 and goForBal and self.cur_bal!=None:
@@ -140,16 +142,16 @@ class trader:
                         if self.pred:
 
                             if self.pred != None:
-                                self.position = self.executor.order(self.symbol, self.direction)
+                                self.position = self.executor.order(self.symbol, self.pred)
                 #if no position is open
                 else:
                     #open new position
                     if self.pred != None:
-                        self.position = self.executor.order(self.symbol, self.direction)
+                        self.position = self.executor.order(self.symbol, self.pred)
                 if self.position:
                     #prints off information about just opened position to user.
                     print("-----------Position Information-----------------")
-                    print(f"{dt.today()} - {self.position.direction} {self.position.quantity} @ {self.position.open_price}")
+                    print(f"{dt.today()} - {self.position.direction} {self.position.shares} @ {self.position.open_price}")
                 sleep(3)
                 goForTrade = False
             elif min % 1 == 0 and goForCheck and min != 0 and sec == 0:
@@ -171,6 +173,6 @@ class trader:
             min = dt.today().minute
             sec = dt.today().second
 try:
-    c = trader("AAPL")
+    c = trader("AMC")
 except NoSuchWindowException:
     print("Exiting trader.")
