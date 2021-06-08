@@ -172,7 +172,3 @@ class trader:
 
             min = dt.today().minute
             sec = dt.today().second
-try:
-    c = trader("AMC")
-except NoSuchWindowException:
-    print("Exiting trader.")
