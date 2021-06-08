@@ -60,9 +60,9 @@ class IB(EClient,EWrapper):
         :return: True/False for order PLACED (not necessarily successful just placed)
         """
         if direction == "BUY":
-            quantity = int(self.getBalance()*4/self.getPrice(instrument)) # *4 because only 25% margin required
+            quantity = int(self.getBalance()/self.getPrice(instrument))
         elif direction == "SELL":
-            quantity = int(self.getBalance() * 3 / self.getPrice(instrument)) #*3 because only 30% margin required (rounded too)
+            quantity = int(self.getBalance()/ self.getPrice(instrument))
         contract = Contract()
         symbol = instrument
         if len(instrument) == 6: # if it is a forex pair
@@ -96,7 +96,7 @@ class IB(EClient,EWrapper):
         while self.nextValidOrderId == old_val and self.orderMade:  # waits until order id updated.
             pass
         # places the order and returns True since no errors would have been raised by this point.
-        self.insuff_funds == None
+        self.insuff_funds = None
         self.placeOrder(self.nextValidOrderId, contract, order)
         sleep(0.5)
         if self.insuff_funds: return False
