@@ -1,16 +1,12 @@
-from ibapi.common import TickerId, TickAttrib
-from ibapi.ticktype import TickType
+from time import sleep
 from ibapi.wrapper import EWrapper
 from ibapi.client import EClient
 from ibapi.contract import Contract
 from ibapi.order import Order
 import logging
-from time import sleep
 from threading import Thread
 import atexit
 from position import Position
-from shortPosition import ShortPosition
-from longPosition import LongPosition
 from yahoo_fin.stock_info import get_live_price
 class IB(EClient,EWrapper):
     def __init__(self):
@@ -52,17 +48,21 @@ class IB(EClient,EWrapper):
         :param errorString: the actual error description
         :return:
         """
-        if reqId != -1: # i.e if not a notification
+        if reqId != -1 or errorCode in [2168,2169]: # i.e if not a notification
             print(f"ERROR:: Code:{errorCode} - {errorString}")
-
-    def order(self, instrument, direction, quantity):
+        elif errorCode == 201:
+            self.insuff_funds = True
+    def order(self, instrument, direction):
         """
         function to allow market orders to be created and placed
         :param instrument: the instrument's symbol
         :param direction: i.e BUY or SELL
-        :param quantity: number of shares
         :return: True/False for order PLACED (not necessarily successful just placed)
         """
+        if direction == "BUY":
+            quantity = int(self.getBalance()*4/self.getPrice(instrument)) # *4 because only 25% margin required
+        elif direction == "SELL":
+            quantity = int(self.getBalance() * 3 / self.getPrice(instrument)) #*3 because only 30% margin required (rounded too)
         contract = Contract()
         symbol = instrument
         if len(instrument) == 6: # if it is a forex pair
@@ -96,11 +96,25 @@ class IB(EClient,EWrapper):
         while self.nextValidOrderId == old_val and self.orderMade:  # waits until order id updated.
             pass
         # places the order and returns True since no errors would have been raised by this point.
+        self.insuff_funds == None
         self.placeOrder(self.nextValidOrderId, contract, order)
+        sleep(0.5)
+        if self.insuff_funds: return False
         self.orderMade = True
-        pos = (ShortPosition(self), LongPosition(self))[direction=="BUY"]
-
-        return True
+        self.raw_pos = []
+        self.reqPositions()
+        while len(self.raw_pos) == 0:
+            pass
+        for pos in self.raw_pos:
+            if pos["symbol"] == instrument:
+                id = pos["contract"].conId
+        pos = Position(instrument, direction, self)
+        pos.opened = True
+        pos.open_price = self.getOpenPrice(instrument)
+        pos.margin = self.getMargin(pos.symbol)
+        pos.shares = quantity
+        pos.posId = id
+        return pos
 
     def accountSummary(self, reqId:int, account:str, tag:str, value:str,currency:str):
         """
@@ -112,18 +126,18 @@ class IB(EClient,EWrapper):
         :param currency: currency that value is in.
         :return: None
         """
-        if tag == "AvailableFunds": # for getBalance
+        if tag == "NetLiquidation": # for getBalance
             self.balance = float(value)
     def accountSummaryEnd(self, reqId:int):
         self.accountSummaryReceived = True
 
     def getBalance(self):
         """
-        gets the available funds for trading from TWS
-        :return: float balance of available funds in account for trading
+        gets the balance from TWS
+        :return: float balance of total cash value in account
         """
         self.accountSummaryReceived = False
-        self.reqAccountSummary(-1, "All","AvailableFunds")
+        self.reqAccountSummary(-1, "All","NetLiquidation")
         while not self.accountSummaryReceived: # waits until account summary received to return value
             pass
         return self.balance
@@ -142,19 +156,19 @@ class IB(EClient,EWrapper):
             inst_symbol = contract.symbol
         elif contract.secType == 'CASH':
             inst_symbol = contract.symbol+contract.currency
+        direction = ("SELL", "BUY")[position > 0] # if position is a -ve number then it must be short
         pos["symbol"] = inst_symbol
+        pos["direction"] = direction
+        pos["no. shares"] = abs(position)
+        pos["margin"] = abs(position) * avgCost
+        pos["open price"] = avgCost
         pos["contract"] = contract
-        pos["no. shares"] = position
-        pos["open prices"] = avgCost
-        pos["margin"] = avgCost * position
-
         self.raw_pos.append(pos)
     def positionEnd(self):
         """
         called when all the position information has been sent.
         :return: None
         """
-        print("RECEIVED")
         self.positionReceived = True
 
     def getMargin(self, symbol):
@@ -166,41 +180,85 @@ class IB(EClient,EWrapper):
         self.raw_pos = []
         self.positionReceived = False
         self.reqPositions() # use eclient method to get position info.
-        while not self.positionReceived: # waits for the position information to be fully received using positionEnd()
+        while len(self.raw_pos) == 0: # waits for the position information to be fully received using positionEnd()
             pass
         for pos in self.raw_pos:
             if pos["symbol"] == symbol:
-                return pos["margin"] # if the position is found return this.
+                return pos["open price"] # if the position is found return this.
         return None # if no position is found None will be returned
-
-    def getPrice(self,symbol):
-        """
-        gets the price of ticker specified.
-        just uses yahoo_fin library because its simpler + quicker than using ibapi.
-        :param symbol: symbol for the data to be retrieved.
-        :return: Float - current price.
-        """
-        return get_live_price(symbol)
-
-
-    def pnlSingle(self, reqId: int, pos: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
-        self.profit_requested = dailyPnL # this variable will contain the profit requested most recently.
-
-    def getProfit(self,symbol):
+    def getOpenPrice(self, symbol):
         self.raw_pos = []
         self.reqPositions()
         while len(self.raw_pos) == 0:
             pass
         for pos in self.raw_pos:
             if pos["symbol"] == symbol:
-                id = pos["contract"].conId
-                self.profit_requested = None
-                self.reqPnLSingle(self.pnlReqId, "DU3919760", "", id)
-                while self.profit_requested == None:
-                    pass
-                self.cancelPnLSingle(self.pnlReqId)
-                self.pnlReqId += 1
-                return self.profit_requested
+                return pos["margin"]
+        return None
+    def getPrice(self,symbol):
+        return get_live_price(symbol)
+    def pnlSingle(self, reqId: int, pos: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
+        self.profit_requested = dailyPnL # this variable will contain the profit requested most recently.
+
+    def getProfit(self,position:Position):
+        """
+        gets the profit for position requested
+        :param position: Position object which is being requested for
+        :return: float(profit_requested)
+        """
+        self.profit_requested = None
+        self.reqPnLSingle(self.pnlReqId, "DU3919760", "", position.posId)
+        while self.profit_requested == None:
+            pass
+        self.cancelPnLSingle(self.pnlReqId)
+        self.pnlReqId += 1
+        return self.profit_requested
+
+
+    def closePosition(self, position:Position):
+        direction = ("SELL", "BUY")[position.direction == "BUY"]
+        contract = Contract()
+        symbol = position.symbol
+        if len(position.symbol) == 6:  # if it is a forex pair
+            sec_type = "CASH"
+            symbol = position.symbol.upper()[0:3]
+            currency = position.symbol.upper()[3:6]
+
+            exchange = "IDEALPRO"
+        elif len(position.symbol) <= 5:  # if it is a stock
+            sec_type = "STK"
+            currency = "USD"
+            contract.primaryExchange = "ISLAND"
+            exchange = "SMART"
+        else:  # if it is neither stock or forex pair refuse to place order, return False for failed order.
+            return False
+        # creates Contract object and fills necessary data
+
+        contract.symbol = symbol
+        contract.secType = sec_type
+        contract.currency = currency
+        contract.exchange = exchange
+
+        # creates order and fills out details
+        order = Order()
+        order.action = direction.upper()
+        order.orderType = "MKT"
+        order.totalQuantity = position.shares
+
+        # gets latest order id
+        old_val = self.nextValidOrderId
+        self.reqIds(-1)
+        while self.nextValidOrderId == old_val and self.orderMade:  # waits until order id updated.
+            pass
+        # places the order and returns True since no errors would have been raised by this point.
+        self.placeOrder(self.nextValidOrderId, contract, order)
+    def getPositions(self):
+        self.raw_pos = []
+        self.reqPositions()
+        while len(self.raw_pos) == 0: # waits until list is populated by (EWrapper.position)
+            pass
+        return self.raw_pos
+
     def end(self):
         print("TRADER DISCONNECTING")
         self.done = True
