@@ -94,6 +94,7 @@ def getMovers():
                 ret_list.append(Stock(data[1], float(data[10])))
             except IndexError:
                 pass
+    browser.close()
     return ret_list
 
 def getT212Primary():
