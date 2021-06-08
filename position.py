@@ -20,9 +20,10 @@ class Position:
         self.close_time = None
         self.peak = None
         self.symbol = symbol
+        self.profit_discount = None
     def close(self):
-        self.close_price = self.trader.getPrice()
-        self.pl = self.trader.getProfit()
+        self.close_price = self.trader.getPrice(self.symbol)
+        self.pl = self.trader.getProfit(self)
         if self.opened:
             self.closed = self.trader.closePosition(self)
         else:

@@ -198,7 +198,7 @@ class IB(EClient,EWrapper):
     def getPrice(self,symbol):
         return get_live_price(symbol)
     def pnlSingle(self, reqId: int, pos: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
-        self.profit_requested = dailyPnL # this variable will contain the profit requested most recently.
+        self.profit_requested = unrealizedPnL # this variable will contain the profit requested most recently.
 
     def getProfit(self,position:Position):
         """
