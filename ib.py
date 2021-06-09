@@ -171,7 +171,7 @@ class IB(EClient,EWrapper):
         """
         self.positionReceived = True
 
-    def getMargin(self, symbol):
+    def getOpenPrice(self, symbol):
         """
         function to get the margin of any given position using EClient.reqPositions()
         :param symbol: symbol of the stock whose margin is being requested
@@ -186,7 +186,7 @@ class IB(EClient,EWrapper):
             if pos["symbol"] == symbol:
                 return pos["open price"] # if the position is found return this.
         return None # if no position is found None will be returned
-    def getOpenPrice(self, symbol):
+    def getMargin(self, symbol):
         self.raw_pos = []
         self.reqPositions()
         while len(self.raw_pos) == 0:
