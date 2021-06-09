@@ -78,7 +78,7 @@ class PositionManager:
         closePrice = position.close_price
         openPrice = position.open_price
         closeTime = position.close_time
-        quantity = position.quantity
+        quantity = position.shares
         PL = position.pl
         if not any([direction, closePrice, openPrice, closeTime, quantity, PL]):
             return False
