@@ -104,6 +104,7 @@ class IB(EClient,EWrapper):
         self.orderMade = True
         self.raw_pos = []
         self.reqPositions()
+        id = None
         while len(self.raw_pos) == 0:
             pass
         for pos in self.raw_pos:

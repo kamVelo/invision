@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/trader.py" beforeDir="false" afterPath="$PROJECT_DIR$/trader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ib.py" beforeDir="false" afterPath="$PROJECT_DIR$/ib.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +53,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.trader2">
+  <component name="RunManager" selected="Python.trader">
     <configuration name="download" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Invision" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -160,9 +161,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.trader" />
         <item itemvalue="Python.trader2" />
         <item itemvalue="Python.ib" />
-        <item itemvalue="Python.trader" />
         <item itemvalue="Python.download" />
         <item itemvalue="Python.test" />
       </list>
@@ -348,7 +349,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623764508741</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="implemented EOD cleanup">
+      <created>1623765214065</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1623765214065</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -390,6 +398,7 @@
     <MESSAGE value="added price control mechanism" />
     <MESSAGE value="fixed quantity control" />
     <MESSAGE value="finalised refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="finalised refactor" />
+    <MESSAGE value="implemented EOD cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented EOD cleanup" />
   </component>
 </project>
