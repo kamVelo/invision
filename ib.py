@@ -3,11 +3,15 @@ from ibapi.wrapper import EWrapper
 from ibapi.client import EClient
 from ibapi.contract import Contract
 from ibapi.order import Order
+from ibapi.order_state import OrderState
+from ibapi.common import OrderId
 import logging
 from threading import Thread
 import atexit
 from position import Position
 from yahoo_fin.stock_info import get_live_price
+from datetime import datetime as dt
+
 class IB(EClient,EWrapper):
     def __init__(self):
         self.pnlReqId = 1
@@ -59,10 +63,7 @@ class IB(EClient,EWrapper):
         :param direction: i.e BUY or SELL
         :return: True/False for order PLACED (not necessarily successful just placed)
         """
-        if direction == "BUY":
-            quantity = int(self.getBalance()/self.getPrice(instrument))
-        elif direction == "SELL":
-            quantity = int(self.getBalance()/ self.getPrice(instrument))
+        quantity = int(self.getBalance()/ self.getPrice(instrument))
         contract = Contract()
         symbol = instrument
         if len(instrument) == 6: # if it is a forex pair
@@ -114,8 +115,26 @@ class IB(EClient,EWrapper):
         pos.margin = self.getMargin(pos.symbol)
         pos.shares = quantity
         pos.posId = id
+        filled = self.isFilled(id)
+        sec = dt.today().second
+        while filled == None:
+            if sec == 0:
+                print("Executing order.")
         return pos
 
+    def isFilled(self, id):
+        self.id_req_completion = id
+        self.reqCompletedOrders(True)
+        self.completed_result = None
+        while self.completed_result == None:
+            pass
+        return self.completed_result
+    def completedOrder(self, contract:Contract, order:Order, orderState:OrderState):
+        if contract.conId == self.id_req_completion:
+            self.completed_result = True
+    def completedOrdersEnd(self):
+        # if the order wasn't found in completedOrder() then it must not have been completed
+        if self.completed_result == None: self.completed_result = False
     def accountSummary(self, reqId:int, account:str, tag:str, value:str,currency:str):
         """
         receives the account summary from TWS
@@ -252,6 +271,11 @@ class IB(EClient,EWrapper):
             pass
         # places the order and returns True since no errors would have been raised by this point.
         self.placeOrder(self.nextValidOrderId, contract, order)
+        filled = self.isFilled(position.posId)
+        sec = dt.today().second
+        while filled == None:
+            if sec == 0:
+                print("Executing order.")
     def getPositions(self):
         self.raw_pos = []
         self.reqPositions()

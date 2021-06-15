@@ -1,0 +1,37 @@
+- start up trader
+- every hour:
+    - get data
+    - analyse data
+    - get prediction
+    - is a position open?
+        - YES:
+            - is position open in same direction as prediction?
+                - YES:
+                    - do nothing.
+                - NO: (i.e open in opposite direction)
+                    - close position:
+                        - place order to close the position
+                        - wait until position is closed to carry on
+                    - open position in opposite direction:
+                        - use the balance / stock price to calculate number of shares to be traded
+                        - place order for this many shares
+                        - return a position object containing all available information.
+                        - wait until position is filled before carrying on.
+        - NO:
+            - was a position opened then closed early?
+            - YES:
+                - was the previous position opened in the same direction as the current prediction?
+                    - YES:
+                        - was the position closed at a loss?
+                            - YES:
+                                - disallow the current position
+                            - NO: (i.e the previous position closed at a profit)
+                                -
+
+                    - NO:
+            - NO:
+                - open position:
+                    - create position object
+                    - calculate number of shares to be traded by using the balance/stock price
+                    - place order
+                    - wait for position to be filled on tws

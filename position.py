@@ -1,10 +1,10 @@
 """
 this is a template class for all position types
 """
-from t212executor import Executor
 from datetime import datetime as dt
 import pandas as pd
 from yahoo_fin.stock_info import get_live_price
+import requests
 class Position:
     def __init__(self,symbol,direction, trader):
         self.direction = direction
@@ -21,14 +21,23 @@ class Position:
         self.peak = None
         self.symbol = symbol
         self.profit_discount = None
+    def open(self, disallow=False):
+        # by default disallow to false.
+        # if disallowed then set disallow to true.
+        # if not disallow then open position
+        if disallow: self.disallow = disallow
+        elif self.direction != None: return self.trader.order(self.symbol, self.direction)
     def close(self):
-        self.close_price = self.trader.getPrice(self.symbol)
-        self.pl = self.trader.getProfit(self)
         if self.opened:
+            try:
+                self.close_price = self.trader.getPrice(self.symbol)
+            except requests.exceptions.SSLError:
+                self.close_price = "NA"
+            self.pl = self.trader.getProfit(self)
             self.closed = self.trader.closePosition(self)
         else:
             self.closed = None
-        self.close_time = dt.today()
+            self.close_time = None
         return self.closed
     def getPrice(self):
         return get_live_price(self.symbol)

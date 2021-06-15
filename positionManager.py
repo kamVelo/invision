@@ -36,7 +36,7 @@ class PositionManager:
             #open and fill the file with column headers as a CSV
             self.records = open(filepath, "w")
 
-            self.records.write("timestamp,position,quantity,open price,close price,P/L,status\n")
+            self.records.write("timestamp,position,shares,open price,close price,P/L,status\n")
 
             self.records.flush()
 
@@ -78,9 +78,9 @@ class PositionManager:
         closePrice = position.close_price
         openPrice = position.open_price
         closeTime = position.close_time
-        quantity = position.quantity
+        shares = position.shares
         PL = position.pl
-        if not any([direction, closePrice, openPrice, closeTime, quantity, PL]):
+        if not any([direction, closePrice, openPrice, closeTime, shares, PL]):
             return False
 
         #get the end status of the position
@@ -90,10 +90,10 @@ class PositionManager:
         else: status = "LOSS"
 
         #append a row to the dataframe of positions
-        self.record_dset.loc[len(self.record_dset)-1] = pd.Series(index=self.record_dset.columns, data=[closeTime, direction.name,quantity, openPrice, closePrice, PL, status])
+        self.record_dset.loc[len(self.record_dset)-1] = pd.Series(index=self.record_dset.columns, data=[closeTime, direction.name,shares, openPrice, closePrice, PL, status])
 
         #append a line to the records file for the position and save the file in case the program shuts down for whatever reason
-        self.records.write("%s,%s,%s,%s,%s,%s,%s\n" % (str(closeTime),direction.name,quantity, openPrice, closePrice, PL, status))
+        self.records.write("%s,%s,%s,%s,%s,%s,%s\n" % (str(closeTime),direction.name,shares, openPrice, closePrice, PL, status))
         self.records.flush()
 
     # get last x positions, latest position by default
