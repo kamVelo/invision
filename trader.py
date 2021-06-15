@@ -1,3 +1,4 @@
+from sys import exit
 from time import sleep
 from datetime import datetime as dt
 import os
@@ -6,62 +7,233 @@ from string import punctuation as special_chars
 from classifier import Classifier
 from positionManager import PositionManager
 import requests as rq
-from selenium.common.exceptions import NoSuchWindowException
 from ib import IB
-class trader:
-    def __init__(self, symbol):
+from getInstrument import getMovers
+from position import Position
+class Trader:
+    def __init__(self):
+        # gets stock to trade
+        self.symbol = self.getStock()
 
-        # validation routine for the symbol entered
-        self.symbol = symbol.upper()
-        if len(symbol) > 6 or any(spec in self.symbol for spec in special_chars):
-            print(f"Sorry, your ticker: {self.symbol} is longer than 6 characters long and thus invalid please re-enter the ticker and try again.")
-            exit(-1)
-            #exits the program if the symbol is invalid.
-
-        # checks to see if data is downloaded, if it isn't then download some
-        elif not os.path.isdir(self.symbol):
+        # checks if stock data is already downloaded or not:
+        if not os.path.isdir(self.symbol):
+            # if not download data now.
             print("No data downloaded for this symbol.\n Downloading now...")
             download(self.symbol)
 
-        # gets the classifier and initialises it.
+        # instantiates classifier
         self.quant = Classifier(self.symbol)
         self.quant.prepNN()
 
+        # instantiates trader
+        self.executor = IB()
 
-        if len(symbol) <= 5: # if stock
-            self.executor = IB()
-            if not self.executor.isConnected():
-                print("TWS connection error.")
-                print("Check if application is open.")
-                print("EXITING TRADER")
-                exit(0)
-        else:
-            print("INVALID SYMBOL")
-            print("EXITING TRADER")
+        # if trader not connected exit app
+        if not self.executor.isConnected():
+            print("TWS connection error.")
+            print("Check if application is open.")
+            print("Exiting Application.")
             exit(0)
 
-        #gets starting balance for the session:
-        self.init_bal = 0
-        while self.init_bal == 0:
-            self.init_bal = self.executor.getBalance()
+        # gets the balance for the account
+        self.init_bal = self.executor.getBalance()
 
-        #declaring and initialising core variables
-        self.feature = [[]] #feature matrix which will be used but is empty until it is gradually filled over an hour
-        self.position = None
+        # instantiating a position manager
         self.pos_manager = PositionManager(self.symbol)
 
-        #starts up the operation
+        # declaring feature matrix to be populated
+        self.feature = [[]]
+
+        # declaring position variable holding the current position of the trader
+        self.position = None
+
+        #declaring go-variables
+        # these variables tell whatStep whether or not a step in the process has just been completed
+        # i.e balance is checked at 15:25. when whatStep is called it will tell caller to check balance
+        # however the check will end before a minute has passed and subsequently whatStep will continue to
+        # tell the caller to check balance until 15:26. by using a flag which is set to false once a step has been
+        # completed and waits until after a minute/second has passed (i.e 15:26) whatStep will only tell the caller
+        # to do a step once
+
+        self.go_for_bal = True
+        self.go_for_check = True
+        self.go_for_trade = True
+
+        # failure counters
+        # for each step how many failures?
+        self.bal_check_fail = 0
+        self.pos_check_fail = 0
+        self.trade_fail = 0
+
         self.run()
     def run(self):
+        # welcomes user
+        self.welcomeMsg()
+
+
+        while True:
+
+            # time variables to control when different steps happen
+            step = self.whatStep()
+
+            # if its time to check balance
+            if step == "CHECK BALANCE":
+                print(step)
+                successful = self.checkBalance()
+                if not successful: self.go_for_bal = True # this means if the check wasn't successful do it again.
+
+            # if it is time to check the position
+            if step == "CHECK TRADE":
+                successful = self.checkTrade()
+                if not successful: self.go_for_trade = True # this will never happen as True is hard-coded but this may change
+
+            # if it is time to trade:
+            if step == "TRADE":
+                self.trade()
+
+    def trade(self):
         """
-        this function is what brings together all the operations.
-        it will act as the user interface and provide all information to the user.
+        called every hour to do a trade
+        this does not mean a position will be opened every hour
+        situations where a position would not be opened include:
+            - previous position was in the same direction but was closed at a loss.
+            - a position is already open in this direction
+            - the prediction returned by the Classifier is None (i.e confidence too low).
 
-        :return:
+        :return: None
         """
+        # get data
+        self.feature = getFeature(self.symbol)
+
+        #get prediction
+        pred = self.quant.predict(self.feature)
+
+        if self.position: # if a position exists (including if it wasn't actually opened because disallowed)
+
+            # announce prediction
+            print(f"\t{dt.today()} - Prediction: {pred} | Current position: {self.position.direction}")
+
+            if self.position.direction == pred: # if open position in the same direction
+                print("Position already open in the same direction")
+            elif pred != None: # position is open in opposite direction, or disallowed
+                self.position.close()
+                self.pos_manager.record(self.position)
+                self.position = Position(self.symbol, pred, self.executor)
+
+                # this line is a little weird.
+                # first we have created a position object.
+                # then we call the Position.open() func, this function returns the output of IB.order
+                # the output of IB.order is a Position object with all data filled in.
+                # therefore this line
+                # - assigns the current position
+                # - to the return given by the positions opening using IB
+                self.position = self.position.open()
+            elif pred == None and self.position:
+                self.position.close()
+                self.pos_manager.record(self.position)
+                self.position = None
+        else: # if no position currently exists
+            # announce a prediction
+            print(f"\t{dt.today()} - Prediction: {pred}")
+
+            # get last position
+            last_pos = self.pos_manager.getLastPosition()
+
+            # if there was a previous position and it was in the same direction and it was a loss
+            if last_pos and last_pos.direction == pred and last_pos.status== "LOSS":
+                self.position = Position(self.symbol, pred, self.executor)
+                self.position = self.position.open(disallow=True)
+            else: # if no position is currently open for any reason other than
+                self.position = Position(self.symbol, pred, self.executor)
+                self.position = self.position.open()
 
 
-        #anncounces that trader is starting
+
+
+    def checkBalance(self):
+        """
+        output balance info and check it hasn't fallen too far.
+        :return: True/false indicating whether check was successful or not
+        """
+        successful = True
+        cur_bal = self.executor.getBalance()
+        try:
+            print(f"\t\t{dt.today()} - Current balance: {cur_bal} | Inital balance: {self.init_bal} | Change: {round((cur_bal / self.init_bal * 100) - 100, 2)}%")
+            if cur_bal/self.init_bal <= 0.85: # if we've lost 15% or greater balance in this session
+                print("BALANCE FALLEN TOO FAR. CLOSING POSITIONS.")
+                if self.position: # if a position exists
+                    closed = self.position.close() # gets the result of closing
+                    if closed == False:
+                        print("FAILED TO CLOSE POSITION.")
+                        print("EXITING TRADER")
+                        exit(0)
+                    else:
+                        self.pos_manager.record(self.position) # if the position closed successfully. record it.
+        except ZeroDivisionError and TypeError and AttributeError: # this will happen if the initial balance wasn't recorded properly.
+            print("FAILED BALANCE CHECK")
+            if type(cur_bal) == int and cur_bal > 0: # so just set the init_bal now if cur_bal is valid.
+                self.init_bal = cur_bal
+                successful = False
+                self.bal_check_fail += 1
+        return successful
+
+    def checkTrade(self):
+        """
+        checks the current position if one is open and closes it or not accordingly.
+        outputs the info abt position
+        :return: True/False for if the check was successful or not.
+        """
+        if self.position:
+            print(f"{dt.today()} - Current P/L: {self.position.getProfit()} | Peak P/L: {self.position.peak} | Margin: {self.position.margin}")
+            closed, msg = self.position.check()
+            print(msg)
+            if closed: # i.e if the position actually was closed
+                self.pos_manager.record(self.position)
+                self.position = None
+            if closed == False: # by default closed is None, if it is false that means that the position tried to close
+                # but failed.
+                print("FAILED TO CLOSE POSITION")
+                print("Exiting Trader.")
+                exit(0)
+        return True
+
+    def whatStep(self):
+        """
+        tells the caller what step to take next
+        :return: string either "CHECK TRADE", "CHECK BALANCE", "TRADE", or "WAIT"
+        """
+        # time variables to control execution
+        hour = dt.today().hour
+        min = dt.today().minute
+        sec = dt.today().second
+
+        # default the program should wait
+        msg = "WAIT"
+
+
+        # pairs for each process:
+        # if (time condition) then do
+        # if not time condition then reset go-variable for given step
+        if min % 5 == 0 and min != 0 and self.go_for_bal: # every 5 minutes check balance apart from when placing trade
+            msg = "CHECK BALANCE"
+            self.go_for_bal = False
+        elif min % 5 != 0 : self.go_for_bal = True
+
+        if min == 0 and self.go_for_trade:
+            msg = "TRADE"
+            self.go_for_trade = False
+        elif min != 0: self.go_for_trade = True
+
+        if sec == 0 and min != 0 and self.go_for_check and min % 5 != 0: # every minute apart from trades
+            msg = "CHECK TRADE"
+            self.go_for_check = False
+        elif sec != 0: self.go_for_check = True
+
+
+
+        return msg
+
+    def welcomeMsg(self):
         print("*--------------------------------------------------------------*")
         print("*----------------------- VERY IMPORTANT -----------------------*")
         print("*--------------------------------------------------------------*")
@@ -70,105 +242,30 @@ class trader:
         print("*                        STARTING TRADER                       *")
         print("*--------------------------------------------------------------*")
 
-        hour = dt.today().hour
-        min = dt.today().minute
-        sec = dt.today().second
 
-        #run this loop theoretically forever
-        goForTrade = True # this variable allows the trader to make a trade, it is reset to false after a trade has been made to prevent the trader from running twice or more in the same minute
-        goForBal = True
-        goForCheck = True
-        while True:
-            if min  < 30 and hour < 14 or hour >= 21:
-                continue
-            disallow = False
-            self.cur_bal = self.executor.getBalance()
-            if min % 5 == 0 and goForBal and self.cur_bal!=None:
-                print(f"\t\tCurrent Balance: {self.cur_bal} - Initial Balance: {self.init_bal} - Growth: {round((self.cur_bal/self.init_bal*100)-100, 2)}%")
-                goForBal = False
-            elif min%5 != 0:
-                goForBal = True
-            try:
-                if self.cur_bal/self.init_bal <= 0.85:
-                    print("*--------------------------------------------------------------*")
-                    print("*----------------------- VERY IMPORTANT -----------------------*")
-                    print("*--------------------------------------------------------------*")
-                    print("Balance has fallen too far. Closing trader and all open position(s)")
-                    print("*                          -------------                       *")
+    def getStock(self):
+        """
+        gets a list of stocks and then asks user which to trade.
+        this is rudimentary, in future a classifier will be run and the highest performing stock will be returned.
+        :return: string ticker for the stock.
+        """
+        # gets list of potential stocks using screener
+        stocks = getMovers()
 
-                    if self.position:
-                        closed = self.position.close()
-                        if closed == False:
-                            print("*--------------------------------------------------------------*")
-                            print("*----------------------- VERY IMPORTANT -----------------------*")
-                            print("*--------------------------------------------------------------*")
-                            print("Position could not be closed. Major error. closing trader without further action. Please manually check the trading dashboard.")
-                            exit(-1)
-                        else:
-                            self.pos_manager.record(self.position)
-            except ZeroDivisionError and TypeError:
-                pass
+        # pick is the eventual choice
+        pick = None
 
-            if min==0 and goForTrade:
-                # every hour
-                try:
-                    self.feature = getFeature(self.symbol) #fills the feature using the getFeature function in download.py
-                    self.pred = self.quant.predict(self.feature)  # makes prediction using prediction matrix just created above
-                except rq.exceptions.SSLError:
-                    print("Error - No Data Available")
-                    self.pred = None
-                try:
-                    print(f"\t{dt.today()} - Prediction: {self.pred} | Current Position: {self.position.direction}") #prints out: time - Prediction: LONG/SHORT | Current Position: LONG/SHORT
-                except AttributeError: #this will occur if no position is currenlty open
-                    print(f"\t{dt.today()} - Prediction: {self.pred} ")
-                lastPos = self.pos_manager.getLastPosition() #gets the last position recorded
+        # goes through list of stocks until one is picked via Y/N questionnaire
+        for stock in stocks:
+            print(f"{stock.ticker}: ")
+            yn = input()
+            if yn.lower() == 'y':
+                pick = stock.ticker
+                break
+        if pick == None: # if no stock is picked in the end application exits.
+            print("NO STOCK SELECTED")
+            print("EXITING PROGRAM")
+            exit(0)
+        return pick
 
-                if lastPos:
-                    if lastPos.direction == self.pred and lastPos.status == "LOSS": # if the last position recorded was in the same direction as this one and was a loss then disallow this trade.
-                        print("\t Must wait at least another period (1 hour) to open this position as the previous iteration of this position was a loss")
-                        disallow = True
-                #if there is already an open position
-                if self.position:
-                    #if the position is open in the same direction
-                    if self.position.direction == self.pred:
-                        print("\t\tPrediction in the same direction as the current position. Maintaining current position")
-                    #if it is open in an opposite direction
-                    else:
-                        #close the current position and record it
-                        self.position.close()
-                        self.pos_manager.record(self.position)
-                        self.position = None
-                        #open new position
-                        if self.pred:
-
-                            if self.pred != None:
-                                self.position = self.executor.order(self.symbol, self.pred)
-                #if no position is open
-                else:
-                    #open new position
-                    if self.pred != None:
-                        self.position = self.executor.order(self.symbol, self.pred)
-                if self.position:
-                    #prints off information about just opened position to user.
-                    print("-----------Position Information-----------------")
-                    print(f"{dt.today()} - {self.position.direction} {self.position.shares} @ {self.position.open_price}")
-                sleep(3)
-                goForTrade = False
-            elif min % 1 == 0 and goForCheck and min != 0 and sec == 0:
-
-                if self.position:
-                    print(f"{dt.today()} - Current P/L: {self.position.getProfit()} - Peak P/L: {self.position.peak} - Margin: {self.position.getMargin()}")
-                    closed, msg = self.position.check()
-                    if closed:
-                        self.pos_manager.record(self.position)
-                        self.position=None
-
-                    print(msg)
-                goForCheck = False
-            elif sec!=0:
-                goForCheck=True
-            elif min != 0:
-                goForTrade = True
-
-            min = dt.today().minute
-            sec = dt.today().second
+trader = Trader()

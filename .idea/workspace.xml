@@ -2,29 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/flowchart.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ib.py" beforeDir="false" afterPath="$PROJECT_DIR$/ib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/position.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/positionManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/positionManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/AA/2021-04-05.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/AAPL/2021-04-23.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURGBP/2021-02-18.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURTRY/2021-04-02.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURUSD/2021-02-11.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURUSD/2021-02-17.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURUSD/2021-02-18.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURUSD/2021-02-19.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURUSD/2021-02-22.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURUSD/2021-02-23.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURUSD/2021-03-19.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURUSD/2021-03-21.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURUSD/2021-03-22.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURUSD/2021-03-23.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/EURUSD/2021-04-02.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/USDJPY/2021-02-11.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/USDJPY/2021-02-17.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/USDJPY/2021-02-23.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/trader.py" beforeDir="false" afterPath="$PROJECT_DIR$/trader.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -363,7 +342,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623161917500</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="finalised refactor">
+      <created>1623764508741</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1623764508741</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -404,6 +390,7 @@
     <MESSAGE value="closes browser" />
     <MESSAGE value="added price control mechanism" />
     <MESSAGE value="fixed quantity control" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed quantity control" />
+    <MESSAGE value="finalised refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="finalised refactor" />
   </component>
 </project>
