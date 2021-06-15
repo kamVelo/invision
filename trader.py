@@ -58,6 +58,7 @@ class Trader:
         self.go_for_bal = True
         self.go_for_check = True
         self.go_for_trade = True
+        self.go_for_finish = True
 
         # failure counters
         # for each step how many failures?
@@ -90,6 +91,10 @@ class Trader:
             # if it is time to trade:
             if step == "TRADE":
                 self.trade()
+
+            # if it's time to finish up
+            if step == "FINISH UP":
+                self.finish()
 
     def trade(self):
         """
@@ -196,7 +201,15 @@ class Trader:
                 print("Exiting Trader.")
                 exit(0)
         return True
-
+    def finish(self):
+        print("Closing position and finishing up ...")
+        if self.position:
+            closed = self.position.close()
+            if closed:
+                self.pos_manager.record(self.position)
+                self.position = None
+            else:
+                print("ERROR. POSITION FAILED TO CLOSE. ATTEND TO THIS URGENTLY")
     def whatStep(self):
         """
         tells the caller what step to take next
@@ -214,7 +227,7 @@ class Trader:
         # pairs for each process:
         # if (time condition) then do
         # if not time condition then reset go-variable for given step
-        if min % 5 == 0 and min != 0 and self.go_for_bal: # every 5 minutes check balance apart from when placing trade
+        if min % 5 == 0 and min != 0 and not (hour == 8 and min == 45 and self.go_for_finish) and self.go_for_bal: # every 5 minutes check balance apart from when placing trade
             msg = "CHECK BALANCE"
             self.go_for_bal = False
         elif min % 5 != 0 : self.go_for_bal = True
@@ -224,10 +237,16 @@ class Trader:
             self.go_for_trade = False
         elif min != 0: self.go_for_trade = True
 
-        if sec == 0 and min != 0 and self.go_for_check and min % 5 != 0: # every minute apart from trades
+        if sec == 0 and min != 0 and self.go_for_check and min % 5 != 0 and not (hour == 8 and min == 45 and self.go_for_finish): # every minute apart from trades, balance check, and finish-up
             msg = "CHECK TRADE"
             self.go_for_check = False
         elif sec != 0: self.go_for_check = True
+
+        if hour == 8 and min == 45 and self.go_for_finish:
+            msg = "FINISH UP"
+            self.go_for_finish = False
+        elif not (hour == 8 and min == 45 and self.go_for_finish):
+            self.go_for_finish = True
 
 
 
