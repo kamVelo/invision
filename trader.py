@@ -261,6 +261,7 @@ class Trader:
         print("*                        STARTING TRADER                       *")
         print("*--------------------------------------------------------------*")
 
+        print(f"Initial Balance: {self.init_bal}")
 
     def getStock(self):
         """
