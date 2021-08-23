@@ -83,11 +83,11 @@ class Classifier():
         #number of categories that the KMeans model can classify into
         num_cats = 2
         #fit the model
-        model = KMeans(init="random", n_clusters=num_cats, n_init=3, max_iter=300, random_state=42)
-        model.fit(self.dset)
-
+        self.model = KMeans(init="random", n_clusters=num_cats, n_init=3, max_iter=300, random_state=42)
+        self.model.fit(self.dset)
+        
         #add the classification to the dset
-        self.dset["classification"] = model.labels_
+        self.dset["classification"] = self.model.labels_
         #adds an index so that we can display hourly data in the show function
         self.dset["index"] = self.dset.index
         #this creates a future closes column so we can figure out what an outputted prediction from the nn means in the function at the top of the class
@@ -135,7 +135,7 @@ class Classifier():
     def predict(self, feature):
         #uses nn to make prediction vector (i.e not single round number
         pred = self.nn_model.predict(feature)
-
+        #pred = self.model.predict(feature)
         #get the prediction as a single round scalar
         prediction = np.argmax(pred, axis=1)
 
@@ -147,24 +147,41 @@ class Classifier():
             return "SELL"
         else:
             return None
-"""
-c = Classifier("BTAI")
-c.prepNN()
-c.show()
+if __name__ == "__main__":
+    c = Classifier("ACI")
+    c.prepNN()
+    c.show()
+    features = [list(x) for x in list(c.dset.iloc[:,:-3].values)]
+    price = 0
+    balance = 500
 
-features = [list(x) for x in list(c.dset.iloc[:,:-3].values)]
-profit = 0
-price = 0
-for index, row in c.dset.iterrows():
-    feature = [features[index]]
-    pred = c.predict(feature)[0][0]
-    diff = row["future close"] - row["60 close"]
-    price = row["future close"]
-    print(f"prediction: {pred}")
-    if abs(c.buy_signal-pred) <= 0.2: #i.e long
-        profit += diff
-    elif abs(c.sell_signal-pred) <= 0.2: #i.e short
-        profit += -1*diff
-print(f"Price: {price}")
-print(f"Profit: {profit}")
-"""
+    for index, row in c.dset.iterrows():
+        profit = 0
+        feature = np.array(features[index]).reshape(1,-1)
+        pred = c.predict(feature)
+        diff = row["future close"] - row["60 close"]
+        price = row["future close"]
+        print(f"prediction: {pred}")
+        shares = balance/price
+        print(f"Iteration: {index}")
+        print(f"{shares=}")
+        print(f"{diff=}")
+        if pred == 'BUY': #i.e long
+            profit += shares * diff
+            print("Profit: ", profit)
+            balance += profit
+        elif pred == 'SELL': #i.e short
+            profit += shares * -1 * diff
+            print("Profit: ", profit)
+            balance += profit
+        elif pred == None:
+            print("No Decision")
+        print(f"Current balance: {balance}\n")
+        if balance < 0:
+            print("-ve balance exiting program.")
+            break
+
+    print(f"Price: {price}")
+    print(f"return: {balance - 500}")
+
+
