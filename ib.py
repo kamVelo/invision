@@ -140,11 +140,9 @@ class IB(EClient,EWrapper):
         self.balance = 0
         #self.reqAccountSummary(-1, "All","NetLiquidation")
         origin = perf_counter()
-        sleep(1)
         while self.balance == 0:
             diff = perf_counter()-origin
-            print(diff)
-            if diff > 1.0:
+            if diff > 5.0:
                 print("Application Error:")
                 print("Application not returning balance.")
                 self.end()
