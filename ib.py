@@ -16,6 +16,7 @@ class IB(EClient,EWrapper):
         self.positionReceived = False
         self.orderMade = False
         self.raw_pos = []
+        self.balance = 10
         # necessary instantiations per IBAPI documentation
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
@@ -26,7 +27,6 @@ class IB(EClient,EWrapper):
         # creates and starts EReader thread
         run = Thread(target=self.run, daemon=True)
         run.start()
-
         # ensures that app always disconnects cleanly
         atexit.register(self.end)
 
@@ -127,20 +127,20 @@ class IB(EClient,EWrapper):
         :param currency: currency that value is in.
         :return: None
         """
-        if tag == "NetLiquidation": # for getBalance
-            self.balance = float(value)
+        self.balance = float(value)
     def accountSummaryEnd(self, reqId:int):
-        self.accountSummaryReceived = True
+        pass
 
     def getBalance(self):
         """
         gets the balance from TWS
         :return: float balance of total cash value in account
         """
-        self.accountSummaryReceived = False
+        self.balance = 0
         self.reqAccountSummary(-1, "All","NetLiquidation")
-        while not self.accountSummaryReceived: # waits until account summary received to return value
+        while self.balance == 0:
             pass
+        self.cancelAccountSummary(-1)
         return self.balance
 
     def position(self, account: str, contract: Contract, position: float, avgCost: float):
@@ -264,3 +264,8 @@ class IB(EClient,EWrapper):
         print("TRADER DISCONNECTING")
         self.done = True
         self.disconnect()
+
+if __name__ == "__main__":
+    m = IB()
+    print(m.getBalance())
+    print("Finished")

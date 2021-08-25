@@ -86,7 +86,13 @@ def getMovers():
     # for loop iterates through length of the stock (assumes both lists are equal length, which they are for now)
     for i in range(0, len(darkstocks)):
         # gets a pair (i.e no. 1 and no.2)
-        pair = [darkstocks[i], lightstocks[i]]
+        try: # if screener returns odd list there will not be both dark and light stock for the pair so only return black stock (black rows are always odd)
+            pair = [darkstocks[i], lightstocks[i]]
+        except IndexError:
+            if i < len(darkstocks):
+                pair = [darkstocks[i]]
+            else:
+                pair = []
         # for both stocks append their Stock objects to the return list.
         for stock in pair:
             data = stock.text.split("\n")

@@ -13,7 +13,7 @@ from position import Position
 class Trader:
     def __init__(self):
         # gets stock to trade
-        self.symbol = self.getStock()
+        self.symbol = getStock()
 
         # checks if stock data is already downloaded or not:
         if not os.path.isdir(self.symbol):
@@ -37,7 +37,6 @@ class Trader:
 
         # gets the balance for the account
         self.init_bal = self.executor.getBalance()
-
         # instantiating a position manager
         self.pos_manager = PositionManager(self.symbol)
 
@@ -68,6 +67,7 @@ class Trader:
 
         self.run()
     def run(self):
+        print("TRADER RUNNING")
         # welcomes user
         self.welcomeMsg()
 
@@ -288,4 +288,5 @@ class Trader:
             exit(0)
         return pick
 
-trader = Trader()
+if __name__ == "__main__":
+    trader = Trader()
