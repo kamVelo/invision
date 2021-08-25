@@ -13,7 +13,7 @@ from position import Position
 class Trader:
     def __init__(self):
         # gets stock to trade
-        self.symbol = getStock()
+        self.symbol = self.getStock()
 
         # checks if stock data is already downloaded or not:
         if not os.path.isdir(self.symbol):

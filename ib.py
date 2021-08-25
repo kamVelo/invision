@@ -1,4 +1,4 @@
-from time import sleep
+from time import sleep, perf_counter
 from ibapi.wrapper import EWrapper
 from ibapi.client import EClient
 from ibapi.contract import Contract
@@ -8,6 +8,7 @@ from threading import Thread
 import atexit
 from position import Position
 import finnhub
+import os
 class IB(EClient,EWrapper):
     def __init__(self):
         self.finnhub_client = finnhub.Client(api_key="c4hsvkiad3ifj3t4ktf0")
@@ -137,9 +138,16 @@ class IB(EClient,EWrapper):
         :return: float balance of total cash value in account
         """
         self.balance = 0
-        self.reqAccountSummary(-1, "All","NetLiquidation")
+        #self.reqAccountSummary(-1, "All","NetLiquidation")
+        origin = perf_counter()
+        sleep(1)
         while self.balance == 0:
-            pass
+            diff = perf_counter()-origin
+            print(diff)
+            if diff > 1.0:
+                print("Application Error:")
+                print("Application not returning balance.")
+                self.end()
         self.cancelAccountSummary(-1)
         return self.balance
 
@@ -264,8 +272,6 @@ class IB(EClient,EWrapper):
         print("TRADER DISCONNECTING")
         self.done = True
         self.disconnect()
-
+        os._exit(0)
 if __name__ == "__main__":
     m = IB()
-    print(m.getBalance())
-    print("Finished")
