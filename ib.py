@@ -138,7 +138,7 @@ class IB(EClient,EWrapper):
         :return: float balance of total cash value in account
         """
         self.balance = 0
-        #self.reqAccountSummary(-1, "All","NetLiquidation")
+        self.reqAccountSummary(-1, "All","NetLiquidation")
         origin = perf_counter()
         while self.balance == 0:
             diff = perf_counter()-origin

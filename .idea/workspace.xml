@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="added getBalance timer">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="added stock enter option">
       <change beforePath="$PROJECT_DIR$/ib.py" beforeDir="false" afterPath="$PROJECT_DIR$/ib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trader.py" beforeDir="false" afterPath="$PROJECT_DIR$/trader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -348,7 +346,14 @@
       <option name="project" value="LOCAL" />
       <updated>1629858492077</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="added stock enter option">
+      <created>1629900995201</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1629900995201</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -365,7 +370,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="modified getT212Stocks to save data to file" />
     <MESSAGE value="got rid of T212stocks.txt" />
     <MESSAGE value="added is_tradeable function for trading 212" />
     <MESSAGE value="refactored executor -&gt; Executor" />
@@ -390,6 +394,7 @@
     <MESSAGE value="changed price fetching library" />
     <MESSAGE value="fixed getBalance" />
     <MESSAGE value="added getBalance timer" />
-    <option name="LAST_COMMIT_MESSAGE" value="added getBalance timer" />
+    <MESSAGE value="added stock enter option" />
+    <option name="LAST_COMMIT_MESSAGE" value="added stock enter option" />
   </component>
 </project>
