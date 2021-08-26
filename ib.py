@@ -50,7 +50,7 @@ class IB(EClient,EWrapper):
         :param errorString: the actual error description
         :return:
         """
-        if reqId != -1 or errorCode in [2168,2169]: # i.e if not a notification
+        if reqId != -1 or errorCode not in [2168,2169,2104,2106,2158]: # i.e if not a notification
             print(f"ERROR:: Code:{errorCode} - {errorString}")
         elif errorCode == 201:
             self.insuff_funds = True
@@ -105,6 +105,7 @@ class IB(EClient,EWrapper):
         self.orderMade = True
         self.raw_pos = []
         self.reqPositions()
+        id = Nonebu
         while len(self.raw_pos) == 0:
             pass
         for pos in self.raw_pos:
@@ -191,7 +192,7 @@ class IB(EClient,EWrapper):
             pass
         for pos in self.raw_pos:
             if pos["symbol"] == symbol:
-                return pos["open price"] # if the position is found return this.
+                return pos["margin"] # if the position is found return this.
         return None # if no position is found None will be returned
     def getOpenPrice(self, symbol):
         self.raw_pos = []
