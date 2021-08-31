@@ -12,6 +12,7 @@ from getInstrument import getMovers
 from position import Position
 class Trader:
     def __init__(self):
+        self.beginning = True
         # gets stock to trade
         getset = input("Enter Y to select a specific stock, or N for a selection: ")
         if getset.upper() == "Y":
@@ -219,6 +220,10 @@ class Trader:
         tells the caller what step to take next
         :return: string either "CHECK TRADE", "CHECK BALANCE", "TRADE", or "WAIT"
         """
+        if self.beginning == True:
+
+            self.beginning = False
+            return "TRADE"
         # time variables to control execution
         hour = dt.today().hour
         min = dt.today().minute
