@@ -90,7 +90,7 @@ class IB(EClient,EWrapper):
         # creates order and fills out details
         order = Order()
         order.action = direction.upper()
-        order.orderType = "MKT"
+        order.orderType = "MTL"
         order.totalQuantity = quantity
         # gets latest order id
         old_val = self.nextValidOrderId
@@ -250,7 +250,7 @@ class IB(EClient,EWrapper):
         # creates order and fills out details
         order = Order()
         order.action = direction.upper()
-        order.orderType = "MKT"
+        order.orderType = "MTL"
         order.totalQuantity = position.shares
 
         # gets latest order id
