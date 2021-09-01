@@ -84,7 +84,6 @@ class Trader:
 
             # if its time to check balance
             if step == "CHECK BALANCE":
-                print(step)
                 successful = self.checkBalance()
                 if not successful: self.go_for_bal = True # this means if the check wasn't successful do it again.
 
@@ -280,10 +279,12 @@ class Trader:
         """
         # gets list of potential stocks using screener
         stocks = getMovers()
+        stock_names = [stock.ticker for stock in stocks]
 
         # pick is the eventual choice
         pick = None
-
+        print("Total list of stocks:")
+        print(','.join(stock_names))
         # goes through list of stocks until one is picked via Y/N questionnaire
         for stock in stocks:
             print(f"{stock.ticker}: ")

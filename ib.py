@@ -61,10 +61,7 @@ class IB(EClient,EWrapper):
         :param direction: i.e BUY or SELL
         :return: True/False for order PLACED (not necessarily successful just placed)
         """
-        if direction == "BUY":
-            quantity = int(self.getBalance()/self.getPrice(instrument))
-        elif direction == "SELL":
-            quantity = int(self.getBalance()/ self.getPrice(instrument))
+        quantity = int((self.getBalance() / 2) / self.getPrice(instrument))
         contract = Contract()
         symbol = instrument
         if len(instrument) == 6: # if it is a forex pair
@@ -90,7 +87,7 @@ class IB(EClient,EWrapper):
         # creates order and fills out details
         order = Order()
         order.action = direction.upper()
-        order.orderType = "MTL"
+        order.orderType = "MKT"
         order.totalQuantity = quantity
         # gets latest order id
         old_val = self.nextValidOrderId
@@ -224,7 +221,7 @@ class IB(EClient,EWrapper):
 
 
     def closePosition(self, position:Position):
-        direction = ("SELL", "BUY")[position.direction == "BUY"]
+        direction = ("BUY","SELL")[position.direction == "BUY"]
         contract = Contract()
         symbol = position.symbol
         if len(position.symbol) == 6:  # if it is a forex pair
@@ -250,7 +247,7 @@ class IB(EClient,EWrapper):
         # creates order and fills out details
         order = Order()
         order.action = direction.upper()
-        order.orderType = "MTL"
+        order.orderType = "MKT"
         order.totalQuantity = position.shares
 
         # gets latest order id
