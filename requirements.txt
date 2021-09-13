@@ -1,0 +1,11 @@
+scikit-learn
+seaborn
+matplotlib
+numpy
+pandas
+tensorflow
+pandas
+requests
+selenium
+ibapi
+finnhub-python
