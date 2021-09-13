@@ -3,10 +3,11 @@ this is a template class for all position types
 """
 from datetime import datetime as dt
 import pandas as pd
-from yahoo_fin.stock_info import get_live_price
 import requests
+import finnhub
 class Position:
     def __init__(self,symbol,direction, trader):
+        self.finnhub_client = finnhub.Client(api_key="c4hsvkiad3ifj3t4ktf0")
         self.direction = direction
         self.posId = None
         self.trader = trader
@@ -40,7 +41,7 @@ class Position:
             self.close_time = None
         return self.closed
     def getPrice(self):
-        return get_live_price(self.symbol)
+        return self.finnhub_client.quote(self.symbol)["c"]
     def check(self):
         profit = self.getProfit()
         self.margin = self.getMargin()
