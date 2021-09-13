@@ -119,7 +119,8 @@ class Trader:
 
         if self.position: # if a position exists (including if it wasn't actually opened because disallowed)
 
-            # announce prediction
+            # announce predictionn
+
             print(f"\t{dt.today()} - Prediction: {pred} | Current position: {self.position.direction}")
 
             if self.position.direction == pred: # if open position in the same direction

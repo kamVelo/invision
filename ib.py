@@ -61,7 +61,7 @@ class IB(EClient,EWrapper):
         :param direction: i.e BUY or SELL
         :return: True/False for order PLACED (not necessarily successful just placed)
         """
-        quantity = int((self.getBalance() / 2) / self.getPrice(instrument))
+        quantity = int((self.getBalance()) / self.getPrice(instrument))
         contract = Contract()
         symbol = instrument
         if len(instrument) == 6: # if it is a forex pair
@@ -101,19 +101,24 @@ class IB(EClient,EWrapper):
         if self.insuff_funds: return False
         self.orderMade = True
         self.raw_pos = []
-        self.reqPositions()
+        sleep(5)
         id = None
-        while len(self.raw_pos) == 0:
-            pass
-        for pos in self.raw_pos:
-            if pos["symbol"] == instrument:
-                id = pos["contract"].conId
+        count = 0
+        while id == None and count<=50: # count prevents the messages per second being sent from being over 50 which closes the connection
+            self.reqPositions()
+            while len(self.raw_pos) == 0:
+                pass
+            for pos in self.raw_pos:
+                if pos["symbol"] == instrument:
+                    id = pos["contract"].conId
+            count += 1
         pos = Position(instrument, direction, self)
         pos.opened = True
         pos.open_price = self.getOpenPrice(instrument)
         pos.margin = self.getMargin(pos.symbol)
         pos.shares = quantity
         pos.posId = id
+        print(f"Opening Position: %s %s @ %s" % (direction, quantity, pos.open_price))
         return pos
 
     def accountSummary(self, reqId:int, account:str, tag:str, value:str,currency:str):
@@ -198,7 +203,7 @@ class IB(EClient,EWrapper):
             pass
         for pos in self.raw_pos:
             if pos["symbol"] == symbol:
-                return pos["margin"]
+                return pos["open price"]
         return None
     def getPrice(self,symbol):
         return self.finnhub_client.quote(symbol)["c"]
