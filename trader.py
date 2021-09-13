@@ -1,6 +1,6 @@
 from sys import exit
 from time import sleep
-from datetime import datetime as dt
+from datetime import datetime as dt, time, timedelta
 import os
 from download import download, getFeature
 from string import punctuation as special_chars
@@ -10,6 +10,8 @@ import requests as rq
 from ib import IB
 from getInstrument import getMovers
 from position import Position
+import pytz
+
 class Trader:
     def __init__(self):
         self.beginning = True
@@ -72,6 +74,7 @@ class Trader:
 
         self.run()
     def run(self):
+
         print("TRADER RUNNING")
         # welcomes user
         self.welcomeMsg()
@@ -220,8 +223,12 @@ class Trader:
         tells the caller what step to take next
         :return: string either "CHECK TRADE", "CHECK BALANCE", "TRADE", or "WAIT"
         """
-        if self.beginning == True:
-
+        ny = pytz.timezone("US/Eastern")
+        openTime = time(9,30)
+        closeTime = time(16,0)
+        tradeable = lambda: openTime < ny.localize(dt.now()).time() < closeTime
+        nearlyClosed = lambda: closeTime - ny.localize(dt.now()).time() < timedelta(900)
+        if self.beginning == True and tradeable():
             self.beginning = False
             return "TRADE"
         # time variables to control execution
@@ -241,7 +248,7 @@ class Trader:
             self.go_for_bal = False
         elif min % 5 != 0 : self.go_for_bal = True
 
-        if min == 0 and self.go_for_trade:
+        if min == 0 and self.go_for_trade and tradeable():
             msg = "TRADE"
             self.go_for_trade = False
         elif min != 0: self.go_for_trade = True
@@ -251,10 +258,10 @@ class Trader:
             self.go_for_check = False
         elif sec != 0: self.go_for_check = True
 
-        if hour == 8 and min == 45 and self.go_for_finish:
+        if nearlyClosed() and self.go_for_finish:
             msg = "FINISH UP"
             self.go_for_finish = False
-        elif not (hour == 8 and min == 45 and self.go_for_finish):
+        elif not (nearlyClosed() and self.go_for_finish):
             self.go_for_finish = True
 
 
