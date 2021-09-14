@@ -71,7 +71,8 @@ class Trader:
         self.bal_check_fail = 0
         self.pos_check_fail = 0
         self.trade_fail = 0
-
+        if len(self.executor.getPositions()) > 0: # i.e there is a position left open from the day before for whatever reason
+            print("Positions are currently open. Close them you fuck.")
         self.run()
     def run(self):
 
@@ -104,11 +105,6 @@ class Trader:
                 self.finish()
 
     def trade(self):
-        if len(self.executor.getPositions()) > 0:
-            if self.go_for_trade == True and self.beginning == False: # this means that the first order of the day was rejected
-                print("Position already open")
-                self.beginning = True
-            return None
         """
         called every hour to do a trade
         this does not mean a position will be opened every hour
@@ -233,8 +229,9 @@ class Trader:
         closeTime = ny.localize(dt(2021,9,13,16,0)).time()
         finishTime = ny.localize(dt(2021,9,13,15,45)).time()
         tradeable = lambda: openTime < ny.localize(dt.now()).time() < closeTime
-        nearlyClosed = lambda:  ny.localize(dt.now()).time() >= finishTime
-        if self.beginning == True and tradeable():
+        nearlyClosed = lambda: finishTime <= ny.localize(dt.now()).time() <= closeTime
+
+        if self.beginning and tradeable():
             self.beginning = False
             return "TRADE"
         # time variables to control execution
@@ -267,7 +264,7 @@ class Trader:
         if nearlyClosed() and self.go_for_finish:
             msg = "FINISH UP"
             self.go_for_finish = False
-        elif not (nearlyClosed() and self.go_for_finish):
+        elif not nearlyClosed() and not self.go_for_finish:
             self.go_for_finish = True
 
 
