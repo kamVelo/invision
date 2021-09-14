@@ -104,6 +104,11 @@ class Trader:
                 self.finish()
 
     def trade(self):
+        if len(self.executor.getPositions()) > 0:
+            if self.go_for_trade == True and self.beginning == False: # this means that the first order of the day was rejected
+                print("Position already open")
+                self.beginning = True
+            return None
         """
         called every hour to do a trade
         this does not mean a position will be opened every hour
@@ -224,10 +229,11 @@ class Trader:
         :return: string either "CHECK TRADE", "CHECK BALANCE", "TRADE", or "WAIT"
         """
         ny = pytz.timezone("US/Eastern")
-        openTime = time(9,30)
-        closeTime = time(16,0)
+        openTime = ny.localize(dt(2021,9,13,9,30)).time()
+        closeTime = ny.localize(dt(2021,9,13,16,0)).time()
+        finishTime = ny.localize(dt(2021,9,13,15,45)).time()
         tradeable = lambda: openTime < ny.localize(dt.now()).time() < closeTime
-        nearlyClosed = lambda: closeTime - ny.localize(dt.now()).time() < timedelta(900)
+        nearlyClosed = lambda:  ny.localize(dt.now()).time() >= finishTime
         if self.beginning == True and tradeable():
             self.beginning = False
             return "TRADE"

@@ -61,6 +61,8 @@ class IB(EClient,EWrapper):
         :param direction: i.e BUY or SELL
         :return: True/False for order PLACED (not necessarily successful just placed)
         """
+        if len(self.getPositions()) > 0:
+            return False
         quantity = int((self.getBalance()) / self.getPrice(instrument))
         contract = Contract()
         symbol = instrument

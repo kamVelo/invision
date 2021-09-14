@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="fixed close-position bug">
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Invision.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Invision.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/position.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ib.py" beforeDir="false" afterPath="$PROJECT_DIR$/ib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trader.py" beforeDir="false" afterPath="$PROJECT_DIR$/trader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -403,7 +400,28 @@
       <option name="project" value="LOCAL" />
       <updated>1630463952119</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="changed yahoo_fin to finnhub">
+      <created>1631530628823</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1631530628823</updated>
+    </task>
+    <task id="LOCAL-00035" summary="added requirements.txt list">
+      <created>1631530642247</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1631530642247</updated>
+    </task>
+    <task id="LOCAL-00036" summary="trader only works during market open">
+      <created>1631530663094</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1631530663094</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -424,9 +442,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="got rid of empty white-space" />
-    <MESSAGE value="fixed order() and EWrapper.position()" />
-    <MESSAGE value="added getMargin() and fixed order()" />
     <MESSAGE value="added comments" />
     <MESSAGE value="added getPrice method" />
     <MESSAGE value="added position info handler" />
@@ -449,13 +464,16 @@
     <MESSAGE value="added session-begin-buy" />
     <MESSAGE value="changed order from mkt to mtl" />
     <MESSAGE value="fixed close-position bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed close-position bug" />
+    <MESSAGE value="changed yahoo_fin to finnhub" />
+    <MESSAGE value="added requirements.txt list" />
+    <MESSAGE value="trader only works during market open" />
+    <option name="LAST_COMMIT_MESSAGE" value="trader only works during market open" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1631530641793">
+    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1631530662584">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1631530641793" />
+    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1631530662584" />
     <state x="122" y="50" key="DiffContextDialog" timestamp="1631530597878">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -464,29 +482,37 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="420" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1631500532297" />
-    <state width="1259" height="163" key="GridCell.Tab.0.bottom" timestamp="1631500594248">
+    <state width="1259" height="163" key="GridCell.Tab.0.bottom" timestamp="1631533226809">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1631500594248" />
-    <state width="1259" height="163" key="GridCell.Tab.0.center" timestamp="1631500594248">
+    <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1631533226809" />
+    <state width="1259" height="163" key="GridCell.Tab.0.center" timestamp="1631533226809">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1631500594248" />
-    <state width="1259" height="163" key="GridCell.Tab.0.left" timestamp="1631500594247">
+    <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1631533226809" />
+    <state width="1259" height="163" key="GridCell.Tab.0.left" timestamp="1631533226809">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1631500594247" />
-    <state width="1259" height="163" key="GridCell.Tab.0.right" timestamp="1631500594248">
+    <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1631533226809" />
+    <state width="1259" height="163" key="GridCell.Tab.0.right" timestamp="1631533226809">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1631500594248" />
+    <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1631533226809" />
     <state x="142" y="0" key="SettingsEditor" timestamp="1631500584869">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1631500584869" />
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1631500207835">
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1631530665280">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1631500207835" />
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1631530665280" />
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1631616906199">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1631616906199" />
+    <state x="450" y="258" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1631616914979">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="450" y="258" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680@0.0.1280.680" timestamp="1631616914979" />
   </component>
 </project>
