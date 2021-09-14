@@ -266,8 +266,9 @@ class IB(EClient,EWrapper):
         self.placeOrder(self.nextValidOrderId, contract, order)
     def getPositions(self):
         self.raw_pos = []
+        self.positionReceived = False
         self.reqPositions()
-        while len(self.raw_pos) == 0: # waits until list is populated by (EWrapper.position)
+        while not self.positionReceived: # waits until list is populated by (EWrapper.position)
             pass
         return self.raw_pos
 

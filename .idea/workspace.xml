@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ib.py" beforeDir="false" afterPath="$PROJECT_DIR$/ib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trader.py" beforeDir="false" afterPath="$PROJECT_DIR$/trader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -427,7 +428,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631616937185</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="fixed no-trading bug">
+      <created>1631617787077</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1631617787077</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -448,7 +456,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added getPrice method" />
     <MESSAGE value="added position info handler" />
     <MESSAGE value="added getProfit func. and implemented EWrapper.pnlSingle" />
     <MESSAGE value="updated for TWS" />
@@ -473,13 +480,14 @@
     <MESSAGE value="added requirements.txt list" />
     <MESSAGE value="trader only works during market open" />
     <MESSAGE value="fixed finishTime lambda" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed finishTime lambda" />
+    <MESSAGE value="fixed no-trading bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed no-trading bug" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1631616935329">
+    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1631617786685">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1631616935329" />
+    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1631617786685" />
     <state x="122" y="50" key="DiffContextDialog" timestamp="1631530597878">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -488,22 +496,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="420" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1631500532297" />
-    <state width="1259" height="163" key="GridCell.Tab.0.bottom" timestamp="1631533226809">
+    <state width="1259" height="163" key="GridCell.Tab.0.bottom" timestamp="1631618490051">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1631533226809" />
-    <state width="1259" height="163" key="GridCell.Tab.0.center" timestamp="1631533226809">
+    <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1631618490051" />
+    <state width="1259" height="163" key="GridCell.Tab.0.center" timestamp="1631618490051">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1631533226809" />
-    <state width="1259" height="163" key="GridCell.Tab.0.left" timestamp="1631533226809">
+    <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1631618490051" />
+    <state width="1259" height="163" key="GridCell.Tab.0.left" timestamp="1631618490051">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1631533226809" />
-    <state width="1259" height="163" key="GridCell.Tab.0.right" timestamp="1631533226809">
+    <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1631618490051" />
+    <state width="1259" height="163" key="GridCell.Tab.0.right" timestamp="1631618490051">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1631533226809" />
+    <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1631618490051" />
     <state x="142" y="0" key="SettingsEditor" timestamp="1631500584869">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

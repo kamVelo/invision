@@ -41,12 +41,10 @@ class Trader:
             print("Check if application is open.")
             print("Exiting Application.")
             exit(0)
-
         # gets the balance for the account
         self.init_bal = self.executor.getBalance()
         # instantiating a position manager
         self.pos_manager = PositionManager(self.symbol)
-
         # declaring feature matrix to be populated
         self.feature = [[]]
 
