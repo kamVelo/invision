@@ -16,12 +16,13 @@ class Trader:
     def __init__(self):
         self.beginning = True
         # gets stock to trade
-        getset = input("Enter Y to select a specific stock, or N for a selection: ")
+        getset = input("Enter Y to select a specific stock, C to choose from a screener, or N to have it chosen automatically: ")
         if getset.upper() == "Y":
             self.symbol = input("Enter a  stock: ")
-        else:
+        elif getset.upper() == "C":
             self.symbol = self.getStock()
-
+        elif getset.upper() =="N":
+            self.symbol = self.getStock(auto=True)
         # checks if stock data is already downloaded or not:
         if not os.path.isdir(self.symbol):
             # if not download data now.
@@ -280,7 +281,7 @@ class Trader:
 
         print(f"Initial Balance: {self.init_bal}")
 
-    def getStock(self):
+    def getStock(self,auto=False):
         """
         gets a list of stocks and then asks user which to trade.
         this is rudimentary, in future a classifier will be run and the highest performing stock will be returned.
@@ -293,14 +294,18 @@ class Trader:
         # pick is the eventual choice
         pick = None
         print("Total list of stocks:")
-        print(','.join(stock_names))
+        print(', '.join(stock_names))
         # goes through list of stocks until one is picked via Y/N questionnaire
-        for stock in stocks:
-            print(f"{stock.ticker}: ")
-            yn = input()
-            if yn.lower() == 'y':
-                pick = stock.ticker
-                break
+        if not auto:
+            for stock in stocks:
+                print(f"{stock.ticker}: ")
+                yn = input()
+                if yn.lower() == 'y':
+                    pick = stock.ticker
+                    break
+        else:
+            pick = stocks[0].ticker
+            print(f"{pick} has been chosen.")
         if pick == None: # if no stock is picked in the end application exits.
             print("NO STOCK SELECTED")
             print("EXITING PROGRAM")
