@@ -264,6 +264,7 @@ class IB(EClient,EWrapper):
             pass
         # places the order and returns True since no errors would have been raised by this point.
         self.placeOrder(self.nextValidOrderId, contract, order)
+        return True
     def getPositions(self):
         self.raw_pos = []
         self.positionReceived = False

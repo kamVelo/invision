@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="getPosition bug fix">
+    <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ib.py" beforeDir="false" afterPath="$PROJECT_DIR$/ib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/position.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trader.py" beforeDir="false" afterPath="$PROJECT_DIR$/trader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -441,7 +443,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631618532960</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="added auto-pick feature">
+      <created>1632107725913</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1632107725913</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -462,7 +471,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added getProfit func. and implemented EWrapper.pnlSingle" />
     <MESSAGE value="updated for TWS" />
     <MESSAGE value="replaced buy- and sell- with order()" />
     <MESSAGE value="added vars for IB" />
@@ -487,13 +495,14 @@
     <MESSAGE value="fixed finishTime lambda" />
     <MESSAGE value="fixed no-trading bug" />
     <MESSAGE value="getPosition bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="getPosition bug fix" />
+    <MESSAGE value="added auto-pick feature" />
+    <option name="LAST_COMMIT_MESSAGE" value="added auto-pick feature" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1632107131226">
+    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1632107725328">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1632107131226" />
+    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1632107725328" />
     <state x="122" y="50" key="DiffContextDialog" timestamp="1631530597878">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -502,22 +511,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="420" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1631500532297" />
-    <state width="1259" height="163" key="GridCell.Tab.0.bottom" timestamp="1632107632843">
+    <state width="1259" height="163" key="GridCell.Tab.0.bottom" timestamp="1632523958407">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1632107632843" />
-    <state width="1259" height="163" key="GridCell.Tab.0.center" timestamp="1632107632842">
+    <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1632523958407" />
+    <state width="1259" height="163" key="GridCell.Tab.0.center" timestamp="1632523958406">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1632107632842" />
-    <state width="1259" height="163" key="GridCell.Tab.0.left" timestamp="1632107632842">
+    <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1632523958406" />
+    <state width="1259" height="163" key="GridCell.Tab.0.left" timestamp="1632523958406">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1632107632842" />
-    <state width="1259" height="163" key="GridCell.Tab.0.right" timestamp="1632107632843">
+    <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1632523958406" />
+    <state width="1259" height="163" key="GridCell.Tab.0.right" timestamp="1632523958407">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1632107632843" />
+    <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1632523958407" />
     <state x="142" y="0" key="SettingsEditor" timestamp="1631500584869">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -526,13 +535,17 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1631616938713" />
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1632107065905">
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1632504032964">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1632107065905" />
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1632504032964" />
     <state x="450" y="258" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1631616914979">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="450" y="258" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680@0.0.1280.680" timestamp="1631616914979" />
+    <state x="303" y="1" key="search.everywhere.popup" timestamp="1632136442398">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="303" y="1" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1632136442398" />
   </component>
 </project>

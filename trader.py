@@ -11,7 +11,6 @@ from ib import IB
 from getInstrument import getMovers
 from position import Position
 import pytz
-
 class Trader:
     def __init__(self):
         self.beginning = True
@@ -196,7 +195,7 @@ class Trader:
         outputs the info abt position
         :return: True/False for if the check was successful or not.
         """
-        if self.position:
+        if self.position != None:
             print(f"{dt.today()} - Current P/L: {self.position.getProfit()} | Peak P/L: {self.position.peak} | Margin: {self.position.margin}")
             closed, msg = self.position.check()
             print(msg)

@@ -52,7 +52,7 @@ class Position:
         if self.peak == None: self.peak = profit
         elif profit>self.peak:
             self.peak = profit
-        if profit/self.margin <=-0.05:
+        if profit/self.margin <=-0.03:
             msg = "\t\tUnrealised Loss is too great. Closing position."
             closed = self.close()
         elif profit/self.margin >= 0.1:
