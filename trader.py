@@ -22,6 +22,10 @@ class Trader:
             self.symbol = self.getStock()
         elif getset.upper() =="N":
             self.symbol = self.getStock(auto=True)
+        else:
+            print("Invalid input. Closing Program.")
+            exit(0)
+
         # checks if stock data is already downloaded or not:
         if not os.path.isdir(self.symbol):
             # if not download data now.
