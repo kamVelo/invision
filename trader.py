@@ -226,12 +226,12 @@ class Trader:
         tells the caller what step to take next
         :return: string either "CHECK TRADE", "CHECK BALANCE", "TRADE", or "WAIT"
         """
-        ny = pytz.timezone("US/Eastern")
-        openTime = ny.localize(dt(2021,9,13,9,30)).time()
-        closeTime = ny.localize(dt(2021,9,13,16,0)).time()
-        finishTime = ny.localize(dt(2021,9,13,15,45)).time()
-        tradeable = lambda: openTime < ny.localize(dt.now()).time() < closeTime
-        nearlyClosed = lambda: finishTime <= ny.localize(dt.now()).time() <= closeTime
+        ny = pytz.timezone("America/New_York")
+        openTime = dt(2021,9,13,9,30).astimezone(ny).time()
+        closeTime = dt(2021,9,13,16,0).astimezone(ny).time()
+        finishTime = dt(2021,9,13,15,45).astimezone(ny).time()
+        tradeable = lambda: openTime < dt.now().astimezone(ny).time() < closeTime
+        nearlyClosed = lambda: finishTime <= dt.now().astimezone(ny).time() <= closeTime
 
         if self.beginning and tradeable():
             self.beginning = False
