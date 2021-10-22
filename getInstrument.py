@@ -66,7 +66,7 @@ def getMovers():
     """
 
     # starts browser
-    url = "https://finviz.com/screener.ashx?v=171&f=sh_price_5to50,sh_relvol_o2,ta_change_u5&ft=3&o=-volume"
+    url = "https://finviz.com/screener.ashx?v=111&f=sh_price_5to50,sh_relvol_o2,ta_change_u5&ft=3&o=-volume"
     opts = Options()
     opts.headless = False
     browser = Chrome(options=opts)
@@ -97,7 +97,7 @@ def getMovers():
         for stock in pair:
             data = stock.text.split("\n")
             try:
-                ret_list.append(Stock(data[1], float(data[10])))
+                ret_list.append(Stock(data[1], float(data[10].replace(",",""))))
             except IndexError:
                 pass
     browser.close()
