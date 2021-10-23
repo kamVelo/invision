@@ -54,15 +54,18 @@ class IB(EClient,EWrapper):
             print(f"ERROR:: Code:{errorCode} - {errorString}")
         elif errorCode == 201:
             self.insuff_funds = True
+        elif errorCode == 103:
+            self.nextValidOrderId += 1
     def order(self, instrument, direction):
         """
         function to allow market orders to be created and placed
         :param instrument: the instrument's symbol
         :param direction: i.e BUY or SELL
-        :return: True/False for order PLACED (not necessarily successful just placed)
+        :return:  Pos/None for order PLACED (not necessarily successful just placed)
         """
         if len(self.getPositions()) > 0:
-            return False
+            print(self.getPositions())
+            return None
         quantity = int((self.getBalance()) / self.getPrice(instrument))
         contract = Contract()
         symbol = instrument
@@ -78,7 +81,7 @@ class IB(EClient,EWrapper):
             contract.primaryExchange = "ISLAND"
             exchange = "SMART"
         else: # if it is neither stock or forex pair refuse to place order, return False for failed order.
-            return False
+            return None
         # creates Contract object and fills necessary data
 
         contract.symbol = symbol
@@ -100,7 +103,7 @@ class IB(EClient,EWrapper):
         self.insuff_funds = None
         self.placeOrder(self.nextValidOrderId, contract, order)
         sleep(0.5)
-        if self.insuff_funds: return False
+        if self.insuff_funds: return None
         self.orderMade = True
         self.raw_pos = []
         sleep(5)
@@ -168,14 +171,15 @@ class IB(EClient,EWrapper):
             inst_symbol = contract.symbol
         elif contract.secType == 'CASH':
             inst_symbol = contract.symbol+contract.currency
-        direction = ("SELL", "BUY")[position > 0] # if position is a -ve number then it must be short
-        pos["symbol"] = inst_symbol
-        pos["direction"] = direction
-        pos["no. shares"] = abs(position)
-        pos["margin"] = abs(position) * avgCost
-        pos["open price"] = avgCost
-        pos["contract"] = contract
-        self.raw_pos.append(pos)
+        if abs(position) != 0: # if the position has 0 shares this indicates that it is an old position and not currently open.
+            direction = ("SELL", "BUY")[position > 0] # if position is a -ve number then it must be short
+            pos["symbol"] = inst_symbol
+            pos["direction"] = direction
+            pos["no. shares"] = abs(position)
+            pos["margin"] = abs(position) * avgCost
+            pos["open price"] = avgCost
+            pos["contract"] = contract
+            self.raw_pos.append(pos)
     def positionEnd(self):
         """
         called when all the position information has been sent.
