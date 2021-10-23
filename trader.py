@@ -17,7 +17,7 @@ class Trader:
         # gets stock to trade
         getset = input("Enter Y to select a specific stock, C to choose from a screener, or N to have it chosen automatically: ")
         if getset.upper() == "Y":
-            self.symbol = input("Enter a  stock: ")
+            self.symbol = input("Enter a  stock: ").upper()
         elif getset.upper() == "C":
             self.symbol = self.getStock()
         elif getset.upper() =="N":
@@ -73,6 +73,8 @@ class Trader:
         self.bal_check_fail = 0
         self.pos_check_fail = 0
         self.trade_fail = 0
+        self.newDay = False
+
         if len(self.executor.getPositions()) > 0: # i.e there is a position left open from the day before for whatever reason
             print("Positions are currently open. Close them you fuck.")
         self.run()
@@ -105,7 +107,63 @@ class Trader:
             # if it's time to finish up
             if step == "FINISH UP":
                 self.finish()
+    def refresh(self):
+        self.beginning = True
+        # gets stock to trade
+        getset = input(
+            "Enter Y to select a specific stock, C to choose from a screener, or N to have it chosen automatically: ")
+        if getset.upper() == "Y":
+            self.symbol = input("Enter a  stock: ").upper()
+        elif getset.upper() == "C":
+            self.symbol = self.getStock()
+        elif getset.upper() == "N":
+            self.symbol = self.getStock(auto=True)
+        else:
+            print("Invalid input. Closing Program.")
+            exit(0)
 
+        # checks if stock data is already downloaded or not:
+        if not os.path.isdir(self.symbol):
+            # if not download data now.
+            print("No data downloaded for this symbol.\n Downloading now...")
+            download(self.symbol)
+
+        # instantiates classifier
+        self.quant = Classifier(self.symbol)
+        self.quant.prepNN()
+
+        self.init_bal = self.executor.getBalance()
+        # instantiating a position manager
+        self.pos_manager = PositionManager(self.symbol)
+        # declaring feature matrix to be populated
+        self.feature = [[]]
+
+        # declaring position variable holding the current position of the trader
+        self.position = None
+
+        # declaring go-variables
+        # these variables tell whatStep whether or not a step in the process has just been completed
+        # i.e balance is checked at 15:25. when whatStep is called it will tell caller to check balance
+        # however the check will end before a minute has passed and subsequently whatStep will continue to
+        # tell the caller to check balance until 15:26. by using a flag which is set to false once a step has been
+        # completed and waits until after a minute/second has passed (i.e 15:26) whatStep will only tell the caller
+        # to do a step once
+
+        self.go_for_bal = True
+        self.go_for_check = True
+        self.go_for_trade = True
+        self.go_for_finish = True
+
+        # failure counters
+        # for each step how many failures?
+        self.bal_check_fail = 0
+        self.pos_check_fail = 0
+        self.trade_fail = 0
+        self.newDay = False
+
+        if len(
+                self.executor.getPositions()) > 0:  # i.e there is a position left open from the day before for whatever reason
+            print("Positions are currently open. Close them you fuck.")
     def trade(self):
         """
         called every hour to do a trade
@@ -227,15 +285,23 @@ class Trader:
         :return: string either "CHECK TRADE", "CHECK BALANCE", "TRADE", or "WAIT"
         """
         ny = pytz.timezone("America/New_York")
-        openTime = dt(2021,9,13,9,30).astimezone(ny).time()
-        closeTime = dt(2021,9,13,16,0).astimezone(ny).time()
-        finishTime = dt(2021,9,13,15,45).astimezone(ny).time()
-        tradeable = lambda: openTime < dt.now().astimezone(ny).time() < closeTime
+        refreshTime = dt(2021,9,13,10,0,tzinfo=ny).time()
+        tradeTime = dt(2021,9,13,10,5,tzinfo=ny).time()
+        closeTime = dt(2021,9,13,16,tzinfo=ny).time()
+        finishTime = dt(2021,9,13,15,45,tzinfo=ny).time()
+        tradeable = lambda: tradeTime < dt.now().astimezone(ny).time() < closeTime
         nearlyClosed = lambda: finishTime <= dt.now().astimezone(ny).time() <= closeTime
+        closed = lambda: dt.now().astimezone(ny).time() > closeTime
+        refresh = lambda: self.newDay and refreshTime < dt.now().astimezone(ny).time() <= tradeTime
 
+        if closed(): self.newDay = True
         if self.beginning and tradeable():
             self.beginning = False
             return "TRADE"
+
+        if refresh():
+            self.newDay = False
+            return "REFRESH"
         # time variables to control execution
         hour = dt.today().hour
         min = dt.today().minute
