@@ -90,10 +90,10 @@ class PositionManager:
         else: status = "LOSS"
 
         #append a row to the dataframe of positions
-        self.record_dset.loc[len(self.record_dset)-1] = pd.Series(index=self.record_dset.columns, data=[closeTime, direction.name,shares, openPrice, closePrice, PL, status])
+        self.record_dset.loc[len(self.record_dset)-1] = pd.Series(index=self.record_dset.columns, data=[closeTime, direction,shares, openPrice, closePrice, PL, status])
 
         #append a line to the records file for the position and save the file in case the program shuts down for whatever reason
-        self.records.write("%s,%s,%s,%s,%s,%s,%s\n" % (str(closeTime),direction.name,shares, openPrice, closePrice, PL, status))
+        self.records.write("%s,%s,%s,%s,%s,%s,%s\n" % (str(closeTime),direction,shares, openPrice, closePrice, PL, status))
         self.records.flush()
 
     # get last x positions, latest position by default
