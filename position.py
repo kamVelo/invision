@@ -74,14 +74,14 @@ class Position:
 
 
 def posFromSeries(row:pd.Series):
-    if not row.empty():
+    if not row.empty:
         close_time = row["timestamp"]
         direction = row["position"]
         close_price = row["close price"]
         open_price = row["open price"]
         pl = row["P/L"]
         status = row["status"]
-        quantity = row["quantity"]
+        quantity = row["shares"]
         return OldPosition(direction, close_time, open_price, close_price,pl, status, quantity)
     else:
         return None
