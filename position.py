@@ -5,6 +5,7 @@ from datetime import datetime as dt
 import pandas as pd
 import requests
 import finnhub
+import pytz
 class Position:
     def __init__(self,symbol,direction, trader):
         self.finnhub_client = finnhub.Client(api_key="c4hsvkiad3ifj3t4ktf0")
@@ -36,6 +37,7 @@ class Position:
                 self.close_price = "NA"
             self.pl = self.trader.getProfit(self)
             self.closed = self.trader.closePosition(self)
+            self.close_time = dt.now().time().astimezone(pytz.timezone("America/New_York"))
         else:
             self.closed = None
             self.close_time = None
@@ -72,7 +74,7 @@ class Position:
 
 
 def posFromSeries(row:pd.Series):
-    if not row:
+    if not row.empty():
         close_time = row["timestamp"]
         direction = row["position"]
         close_price = row["close price"]
