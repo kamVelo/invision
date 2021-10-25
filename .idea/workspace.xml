@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/timestampConverter_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/position.py" afterDir="false" />
     </list>
@@ -38,10 +39,53 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/timestampConverter_test.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.trader">
-    <configuration name="download" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.convertTimestamp">
+    <configuration name="classifier2" type="PythonConfigurationType" factoryName="Python">
+      <module name="Invision" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\alika\AppData\Local\Programs\Python\Python39\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/classifier2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="convertTimestamp" type="PythonConfigurationType" factoryName="Python">
+      <module name="Invision" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\alika\AppData\Local\Programs\Python\Python39\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/timestampConverter_test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="download" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Invision" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -62,7 +106,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="getInstrument" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="getInstrument" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Invision" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -83,7 +127,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="ib" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="ib" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Invision" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -104,7 +148,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Invision" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -125,7 +169,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="trader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="trader" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Invision" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -146,15 +190,15 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.trader" />
-        <item itemvalue="Python.getInstrument" />
-        <item itemvalue="Python.ib" />
-        <item itemvalue="Python.download" />
-        <item itemvalue="Python.test" />
-      </list>
-    </recent_temporary>
+    <list>
+      <item itemvalue="Python.classifier2" />
+      <item itemvalue="Python.convertTimestamp" />
+      <item itemvalue="Python.download" />
+      <item itemvalue="Python.getInstrument" />
+      <item itemvalue="Python.ib" />
+      <item itemvalue="Python.test" />
+      <item itemvalue="Python.trader" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
@@ -497,7 +541,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635027976861</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="fixed close_time null">
+      <created>1635184549219</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1635184549220</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -518,7 +569,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added price control mechanism" />
     <MESSAGE value="fixed quantity control" />
     <MESSAGE value="changed price fetching library" />
     <MESSAGE value="fixed getBalance" />
@@ -543,54 +593,83 @@
     <MESSAGE value="fixed position storage" />
     <MESSAGE value="added daily trade refresh" />
     <MESSAGE value="fixed bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed bug" />
+    <MESSAGE value="fixed close_time null" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed close_time null" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1635027976456">
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1635193999103">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1635027976456" />
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1635193999103" />
+    <state x="441" y="87" key="#xdebugger.evaluate" timestamp="1635192419391">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="441" y="87" key="#xdebugger.evaluate/0.0.1280.680@0.0.1280.680" timestamp="1635192419391" />
+    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1635184548553">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1635184548553" />
     <state x="122" y="50" key="DiffContextDialog" timestamp="1635027953276">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="122" y="50" key="DiffContextDialog/0.0.1280.680@0.0.1280.680" timestamp="1635027953276" />
-    <state x="420" y="95" key="FileChooserDialogImpl" timestamp="1631500532297">
+    <state x="420" y="95" key="FileChooserDialogImpl" timestamp="1635193997260">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="420" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1631500532297" />
-    <state width="1259" height="163" key="GridCell.Tab.0.bottom" timestamp="1635184298258">
+    <state x="420" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1635193997260" />
+    <state width="1259" height="163" key="GridCell.Tab.0.bottom" timestamp="1635194125528">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1635184298258" />
-    <state width="1259" height="163" key="GridCell.Tab.0.center" timestamp="1635184298257">
+    <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1635194125528" />
+    <state width="1259" height="163" key="GridCell.Tab.0.center" timestamp="1635194125527">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1635184298257" />
-    <state width="1259" height="163" key="GridCell.Tab.0.left" timestamp="1635184298257">
+    <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1635194125527" />
+    <state width="1259" height="163" key="GridCell.Tab.0.left" timestamp="1635194125527">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1635184298257" />
-    <state width="1259" height="163" key="GridCell.Tab.0.right" timestamp="1635184298257">
+    <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1635194125527" />
+    <state width="1259" height="163" key="GridCell.Tab.0.right" timestamp="1635194125528">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1635184298257" />
+    <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1635194125528" />
+    <state width="1259" height="204" key="GridCell.Tab.1.bottom" timestamp="1635192451874">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1259" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1635192451874" />
+    <state width="1259" height="204" key="GridCell.Tab.1.center" timestamp="1635192451874">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1259" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1635192451874" />
+    <state width="1259" height="204" key="GridCell.Tab.1.left" timestamp="1635192451873">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1259" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1635192451873" />
+    <state width="1259" height="204" key="GridCell.Tab.1.right" timestamp="1635192451874">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1259" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1635192451874" />
     <state x="142" y="0" key="SettingsEditor" timestamp="1634925188164">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1634925188164" />
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1635028091047">
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1635184550991">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1635028091047" />
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1635184550991" />
     <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1635073201361">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1635073201361" />
     <state x="180" y="439" key="com.intellij.ide.util.TipDialog/0.0.720.1240@0.0.720.1240" timestamp="1635024448536" />
-    <state x="450" y="258" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1631616914979">
+    <state x="450" y="258" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1635192568372">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="450" y="258" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680@0.0.1280.680" timestamp="1631616914979" />
+    <state x="450" y="258" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680@0.0.1280.680" timestamp="1635192568372" />
+    <state x="213" y="77" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1635192443849">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="213" y="77" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1280.680@0.0.1280.680" timestamp="1635192443849" />
     <state x="383" y="0" key="refactoring.ChangeSignatureDialog" timestamp="1635027297548">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
