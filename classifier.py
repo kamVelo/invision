@@ -147,6 +147,8 @@ class Classifier():
             return "SELL"
         else:
             return None
+
+"""
 if __name__ == "__main__":
     c = Classifier("ACI")
     c.prepNN()
@@ -184,4 +186,7 @@ if __name__ == "__main__":
     print(f"Price: {price}")
     print(f"return: {balance - 500}")
 
-
+"""
+if __name__ == '__main__':
+    c = Classifier("BE")
+    c.prepNN()

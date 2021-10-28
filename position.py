@@ -37,7 +37,7 @@ class Position:
                 self.close_price = "NA"
             self.pl = self.trader.getProfit(self)
             self.closed = self.trader.closePosition(self)
-            self.close_time = dt.now().time().astimezone(pytz.timezone("America/New_York"))
+            self.close_time = dt.now().astimezone(pytz.timezone("America/New_York")).time()
         else:
             self.closed = None
             self.close_time = None

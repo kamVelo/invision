@@ -373,7 +373,7 @@ class Trader:
                     pick = stock.ticker
                     break
         else:
-            pick = stocks[0].ticker
+            pick = stocks[4].ticker # in my experience the first stock is never good but the few after are.
             print(f"{pick} has been chosen.")
         if pick == None: # if no stock is picked in the end application exits.
             print("NO STOCK SELECTED")

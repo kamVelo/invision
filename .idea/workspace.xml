@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/timestampConverter_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/classifier.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/position.py" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,10 +40,43 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/timestampConverter_test.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/classifier.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.convertTimestamp">
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.trader">
+    <configuration name="classifier" type="PythonConfigurationType" factoryName="Python">
+      <module name="Invision" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\alika\AppData\Local\Programs\Python\Python39\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/classifier.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="classifier2" type="PythonConfigurationType" factoryName="Python">
       <module name="Invision" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -192,6 +226,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.classifier2" />
+      <item itemvalue="Python.classifier" />
       <item itemvalue="Python.convertTimestamp" />
       <item itemvalue="Python.download" />
       <item itemvalue="Python.getInstrument" />
@@ -200,7 +235,7 @@
       <item itemvalue="Python.trader" />
     </list>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -211,13 +246,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1619210049142</updated>
-    </task>
-    <task id="LOCAL-00001" summary="added function to get T212 stocks.">
-      <created>1620498843142</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1620498843142</updated>
     </task>
     <task id="LOCAL-00002" summary="modified getT212Stocks to save data to file">
       <created>1620499201217</created>
@@ -548,7 +576,21 @@
       <option name="project" value="LOCAL" />
       <updated>1635184549220</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="added timestamp converter">
+      <created>1635194158158</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1635194158158</updated>
+    </task>
+    <task id="LOCAL-00050" summary="fixed row.empty()">
+      <created>1635194172895</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1635194172896</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -569,8 +611,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fixed quantity control" />
-    <MESSAGE value="changed price fetching library" />
     <MESSAGE value="fixed getBalance" />
     <MESSAGE value="added getBalance timer" />
     <MESSAGE value="added stock enter option" />
@@ -594,61 +634,63 @@
     <MESSAGE value="added daily trade refresh" />
     <MESSAGE value="fixed bug" />
     <MESSAGE value="fixed close_time null" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed close_time null" />
+    <MESSAGE value="added timestamp converter" />
+    <MESSAGE value="fixed row.empty()" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed row.empty()" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1635193999103">
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1635194751590">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1635193999103" />
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1635194751590" />
     <state x="441" y="87" key="#xdebugger.evaluate" timestamp="1635192419391">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="441" y="87" key="#xdebugger.evaluate/0.0.1280.680@0.0.1280.680" timestamp="1635192419391" />
-    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1635194157579">
+    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1635194172479">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1635194157579" />
+    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1635194172479" />
     <state x="122" y="50" key="DiffContextDialog" timestamp="1635027953276">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="122" y="50" key="DiffContextDialog/0.0.1280.680@0.0.1280.680" timestamp="1635027953276" />
-    <state x="420" y="95" key="FileChooserDialogImpl" timestamp="1635193997260">
+    <state x="420" y="95" key="FileChooserDialogImpl" timestamp="1635194749378">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="420" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1635193997260" />
-    <state width="1259" height="163" key="GridCell.Tab.0.bottom" timestamp="1635194125528">
+    <state x="420" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1635194749378" />
+    <state width="1259" height="163" key="GridCell.Tab.0.bottom" timestamp="1635303083393">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1635194125528" />
-    <state width="1259" height="163" key="GridCell.Tab.0.center" timestamp="1635194125527">
+    <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1635303083393" />
+    <state width="1259" height="163" key="GridCell.Tab.0.center" timestamp="1635303083393">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1635194125527" />
-    <state width="1259" height="163" key="GridCell.Tab.0.left" timestamp="1635194125527">
+    <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1635303083393" />
+    <state width="1259" height="163" key="GridCell.Tab.0.left" timestamp="1635303083393">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1635194125527" />
-    <state width="1259" height="163" key="GridCell.Tab.0.right" timestamp="1635194125528">
+    <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1635303083393" />
+    <state width="1259" height="163" key="GridCell.Tab.0.right" timestamp="1635303083393">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1635194125528" />
-    <state width="1259" height="204" key="GridCell.Tab.1.bottom" timestamp="1635192451874">
+    <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1635303083393" />
+    <state width="1259" height="204" key="GridCell.Tab.1.bottom" timestamp="1635199178465">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1635192451874" />
-    <state width="1259" height="204" key="GridCell.Tab.1.center" timestamp="1635192451874">
+    <state width="1259" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1635199178465" />
+    <state width="1259" height="204" key="GridCell.Tab.1.center" timestamp="1635199178465">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1635192451874" />
-    <state width="1259" height="204" key="GridCell.Tab.1.left" timestamp="1635192451873">
+    <state width="1259" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1635199178465" />
+    <state width="1259" height="204" key="GridCell.Tab.1.left" timestamp="1635199178465">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1635192451873" />
-    <state width="1259" height="204" key="GridCell.Tab.1.right" timestamp="1635192451874">
+    <state width="1259" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1635199178465" />
+    <state width="1259" height="204" key="GridCell.Tab.1.right" timestamp="1635199178465">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1635192451874" />
+    <state width="1259" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1635199178465" />
     <state x="142" y="0" key="SettingsEditor" timestamp="1634925188164">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -657,10 +699,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1635184550991" />
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1635073201361">
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1635252682853">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1635073201361" />
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1635252682853" />
     <state x="180" y="439" key="com.intellij.ide.util.TipDialog/0.0.720.1240@0.0.720.1240" timestamp="1635024448536" />
     <state x="450" y="258" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1635192568372">
       <screen x="0" y="0" width="1280" height="680" />
