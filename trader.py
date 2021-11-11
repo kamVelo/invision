@@ -15,7 +15,7 @@ class Trader:
     def __init__(self):
         self.beginning = True
         # gets stock to trade
-        getset = input("Enter Y to select a specific stock, C to choose from a screener, or N to have it chosen automatically,\n or enter F to automatically choose at next open: ")
+        getset = input("Enter Y to select a specific stock, C to choose from a screener, or N to have it chosen automatically,\nor enter F to automatically choose at next open: ")
         if getset.upper() == "Y":
             self.symbol = input("Enter a  stock: ").upper()
         elif getset.upper() == "C":
@@ -25,10 +25,12 @@ class Trader:
         elif getset.upper() == "F":
             ny = pytz.timezone("America/New_York")
             getStockTime = dt(2021, 9, 13, 10, 0, tzinfo=ny).time()
-            timeToGet = lambda: dt.now().astimezone(ny).time() >= getStockTime
+            dontGet = dt(2021, 9, 13, 16, 30, tzinfo=ny).time()
+            timeToGet = lambda: getStockTime <= dt.now().astimezone(ny).time() < dontGet
             while not timeToGet():
+                print("waiting")
                 pass
-            self.getStock(auto=True)
+            self.symbol = self.getStock(auto=True)
 
 
 
