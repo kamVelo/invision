@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/classifier.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/position.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trader.py" beforeDir="false" afterPath="$PROJECT_DIR$/trader.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -246,13 +245,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1619210049142</updated>
-    </task>
-    <task id="LOCAL-00002" summary="modified getT212Stocks to save data to file">
-      <created>1620499201217</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1620499201217</updated>
     </task>
     <task id="LOCAL-00003" summary="got rid of T212stocks.txt">
       <created>1620499421741</created>
@@ -590,7 +582,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635194172896</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="pick 4th stock">
+      <created>1635457821660</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1635457821660</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -611,7 +610,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fixed getBalance" />
     <MESSAGE value="added getBalance timer" />
     <MESSAGE value="added stock enter option" />
     <MESSAGE value="getBalance bug fix" />
@@ -636,7 +634,8 @@
     <MESSAGE value="fixed close_time null" />
     <MESSAGE value="added timestamp converter" />
     <MESSAGE value="fixed row.empty()" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed row.empty()" />
+    <MESSAGE value="pick 4th stock" />
+    <option name="LAST_COMMIT_MESSAGE" value="pick 4th stock" />
   </component>
   <component name="WindowStateProjectService">
     <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1635194751590">
