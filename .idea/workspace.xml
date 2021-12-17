@@ -5,7 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trader.py" beforeDir="false" afterPath="$PROJECT_DIR$/trader.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,19 +39,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/classifier.py" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+    <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RunManager" selected="Python.trader">
     <configuration name="classifier" type="PythonConfigurationType" factoryName="Python">
@@ -234,7 +221,7 @@
       <item itemvalue="Python.trader" />
     </list>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -245,20 +232,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1619210049142</updated>
-    </task>
-    <task id="LOCAL-00003" summary="got rid of T212stocks.txt">
-      <created>1620499421741</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1620499421741</updated>
-    </task>
-    <task id="LOCAL-00004" summary="added is_tradeable function for trading 212">
-      <created>1620499909644</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1620499909644</updated>
     </task>
     <task id="LOCAL-00005" summary="refactored executor -&gt; Executor">
       <created>1620500801818</created>
@@ -589,7 +562,21 @@
       <option name="project" value="LOCAL" />
       <updated>1635457821660</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="added pre-open auto-start">
+      <created>1636673484945</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1636673484946</updated>
+    </task>
+    <task id="LOCAL-00053" summary="bug fix">
+      <created>1636673747304</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1636673747305</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -610,10 +597,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added getBalance timer" />
     <MESSAGE value="added stock enter option" />
     <MESSAGE value="getBalance bug fix" />
-    <MESSAGE value="bug fix" />
     <MESSAGE value="added session-begin-buy" />
     <MESSAGE value="changed order from mkt to mtl" />
     <MESSAGE value="fixed close-position bug" />
@@ -635,7 +620,9 @@
     <MESSAGE value="added timestamp converter" />
     <MESSAGE value="fixed row.empty()" />
     <MESSAGE value="pick 4th stock" />
-    <option name="LAST_COMMIT_MESSAGE" value="pick 4th stock" />
+    <MESSAGE value="added pre-open auto-start" />
+    <MESSAGE value="bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
   </component>
   <component name="WindowStateProjectService">
     <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1635194751590">
@@ -658,22 +645,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="420" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1635194749378" />
-    <state width="1259" height="163" key="GridCell.Tab.0.bottom" timestamp="1635303083393">
+    <state width="1244" height="160" key="GridCell.Tab.0.bottom" timestamp="1639756536485">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1635303083393" />
-    <state width="1259" height="163" key="GridCell.Tab.0.center" timestamp="1635303083393">
+    <state width="1244" height="160" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1639756536485" />
+    <state width="1244" height="160" key="GridCell.Tab.0.center" timestamp="1639756536485">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1635303083393" />
-    <state width="1259" height="163" key="GridCell.Tab.0.left" timestamp="1635303083393">
+    <state width="1244" height="160" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1639756536485" />
+    <state width="1244" height="160" key="GridCell.Tab.0.left" timestamp="1639756536484">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1635303083393" />
-    <state width="1259" height="163" key="GridCell.Tab.0.right" timestamp="1635303083393">
+    <state width="1244" height="160" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1639756536484" />
+    <state width="1244" height="160" key="GridCell.Tab.0.right" timestamp="1639756536485">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1635303083393" />
+    <state width="1244" height="160" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1639756536485" />
     <state width="1259" height="204" key="GridCell.Tab.1.bottom" timestamp="1635199178465">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

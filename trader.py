@@ -1,3 +1,5 @@
+#git token: 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
+
 from sys import exit
 from time import sleep
 from datetime import datetime as dt, time, timedelta
@@ -11,6 +13,7 @@ from ib import IB
 from getInstrument import getMovers
 from position import Position
 import pytz
+# TODO: add support/resistance levels to classifier
 class Trader:
     def __init__(self):
         self.beginning = True
@@ -28,7 +31,6 @@ class Trader:
             dontGet = dt(2021, 9, 13, 16, 30, tzinfo=ny).time()
             timeToGet = lambda: getStockTime <= dt.now().astimezone(ny).time() < dontGet
             while not timeToGet():
-                print("waiting")
                 pass
             self.symbol = self.getStock(auto=True)
 
