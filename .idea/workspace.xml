@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trader.py" beforeDir="false" afterPath="$PROJECT_DIR$/trader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -232,13 +231,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1619210049142</updated>
-    </task>
-    <task id="LOCAL-00005" summary="refactored executor -&gt; Executor">
-      <created>1620500801818</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1620500801818</updated>
     </task>
     <task id="LOCAL-00006" summary="finalised getInstrument.py for trading212">
       <created>1621018471734</created>
@@ -576,7 +568,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636673747305</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="todo update">
+      <created>1639756691919</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1639756691920</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -597,7 +596,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added stock enter option" />
     <MESSAGE value="getBalance bug fix" />
     <MESSAGE value="added session-begin-buy" />
     <MESSAGE value="changed order from mkt to mtl" />
@@ -622,7 +620,8 @@
     <MESSAGE value="pick 4th stock" />
     <MESSAGE value="added pre-open auto-start" />
     <MESSAGE value="bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
+    <MESSAGE value="todo update" />
+    <option name="LAST_COMMIT_MESSAGE" value="todo update" />
   </component>
   <component name="WindowStateProjectService">
     <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1635194751590">
@@ -633,10 +632,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="441" y="87" key="#xdebugger.evaluate/0.0.1280.680@0.0.1280.680" timestamp="1635192419391" />
-    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1635194172479">
+    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1639756691122">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1635194172479" />
+    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1639756691122" />
     <state x="122" y="50" key="DiffContextDialog" timestamp="1635027953276">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -645,22 +644,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="420" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1635194749378" />
-    <state width="1244" height="160" key="GridCell.Tab.0.bottom" timestamp="1639756536485">
+    <state width="1244" height="160" key="GridCell.Tab.0.bottom" timestamp="1639756699614">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1244" height="160" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1639756536485" />
-    <state width="1244" height="160" key="GridCell.Tab.0.center" timestamp="1639756536485">
+    <state width="1244" height="160" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1639756699614" />
+    <state width="1244" height="160" key="GridCell.Tab.0.center" timestamp="1639756699614">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1244" height="160" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1639756536485" />
-    <state width="1244" height="160" key="GridCell.Tab.0.left" timestamp="1639756536484">
+    <state width="1244" height="160" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1639756699614" />
+    <state width="1244" height="160" key="GridCell.Tab.0.left" timestamp="1639756699614">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1244" height="160" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1639756536484" />
-    <state width="1244" height="160" key="GridCell.Tab.0.right" timestamp="1639756536485">
+    <state width="1244" height="160" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1639756699614" />
+    <state width="1244" height="160" key="GridCell.Tab.0.right" timestamp="1639756699614">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1244" height="160" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1639756536485" />
+    <state width="1244" height="160" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1639756699614" />
     <state width="1259" height="204" key="GridCell.Tab.1.bottom" timestamp="1635199178465">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -681,14 +680,14 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1634925188164" />
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1635184550991">
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1639756695026">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1635184550991" />
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1635252682853">
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1639756695026" />
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1640011518723">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1635252682853" />
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1640011518723" />
     <state x="180" y="439" key="com.intellij.ide.util.TipDialog/0.0.720.1240@0.0.720.1240" timestamp="1635024448536" />
     <state x="450" y="258" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1635192568372">
       <screen x="0" y="0" width="1280" height="680" />

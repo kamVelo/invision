@@ -14,6 +14,7 @@ from getInstrument import getMovers
 from position import Position
 import pytz
 # TODO: add support/resistance levels to classifier
+# TODO: add info to stock options
 class Trader:
     def __init__(self):
         self.beginning = True
