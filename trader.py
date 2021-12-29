@@ -1,4 +1,4 @@
-#git token: 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
+
 
 from sys import exit
 from time import sleep
