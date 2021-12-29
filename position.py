@@ -14,7 +14,7 @@ class Position:
         self.trader = trader
         self.opened = False
         self.disallowed = False
-        self.open_price = None
+        self.fill_price = None
         self.shares = None
         self.margin = None
         self.close_price = None
@@ -46,7 +46,10 @@ class Position:
         return self.finnhub_client.quote(self.symbol)["c"]
     def check(self):
         profit = self.getProfit()
-        self.margin = self.getMargin()
+        if self.margin != self.getMargin():
+            self.margin = self.getMargin()
+            self.fill_price = self.margin/self.shares
+            print("Updated Fill Price: ", self.fill_price)
         closed = None
         if not profit or not self.margin:
             msg = "Data Error"
@@ -78,18 +81,18 @@ def posFromSeries(row:pd.Series):
         close_time = row["timestamp"]
         direction = row["position"]
         close_price = row["close price"]
-        open_price = row["open price"]
+        fill_price = row["open price"]
         pl = row["P/L"]
         status = row["status"]
         quantity = row["shares"]
-        return OldPosition(direction, close_time, open_price, close_price,pl, status, quantity)
+        return OldPosition(direction, close_time, fill_price, close_price,pl, status, quantity)
     else:
         return None
 class OldPosition:
-    def __init__(self, direction=None, close_time=None, open_price=None, close_price=None, pl=None, status=None, quantity=None):
+    def __init__(self, direction=None, close_time=None, fill_price=None, close_price=None, pl=None, status=None, quantity=None):
         self.direction = direction
         self.close_time = close_time
-        self.open_price = open_price
+        self.fill_price = fill_price
         self.close_price = close_price
         self.pl = pl
         self.status = status

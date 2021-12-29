@@ -66,7 +66,7 @@ def getMovers():
     """
 
     # starts browser
-    url = "https://finviz.com/screener.ashx?v=111&f=sh_price_5to50,sh_relvol_o2,ta_change_u5&ft=3&o=-volume"
+    url = "https://finviz.com/screener.ashx?v=111&f=cap_midover,sh_price_5to50,sh_relvol_o1,ta_averagetruerange_o3&ft=4&o=-volume"
     opts = Options()
     opts.headless = False
     browser = Chrome(options=opts)
@@ -97,7 +97,10 @@ def getMovers():
         for stock in pair:
             data = stock.text.split("\n")
             try:
-                ret_list.append(Stock(data[1], float(data[10].replace(",",""))))
+                s = Stock(data[1], float(data[-3]))
+                s.change = float(data[-2].replace("%",""))
+                s.volume = int(data[-1].replace(",",""))
+                ret_list.append(s)
             except IndexError:
                 pass
     browser.close()
@@ -112,3 +115,11 @@ def getT212Primary():
     for opt in movers:
         if isTradeable_212(opt):
             return opt
+
+if __name__ == "__main__":
+    instruments = getMovers()
+    for instrument in instruments:
+        print(instrument.ticker,end=" - ")
+        print(instrument.price,end=" - ")
+        print(instrument.change,end=" - ")
+        print(instrument.volume)

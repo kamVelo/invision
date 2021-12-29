@@ -15,6 +15,8 @@ from position import Position
 import pytz
 # TODO: add support/resistance levels to classifier
 # TODO: add info to stock options
+# TODO: Solve "closing one, opening another" problem
+# TODO: invest half liquid cash
 class Trader:
     def __init__(self):
         self.beginning = True
@@ -276,7 +278,7 @@ class Trader:
         :return: True/False for if the check was successful or not.
         """
         if self.position != None:
-            print(f"{dt.today()} - Current P/L: {self.position.getProfit()} | Peak P/L: {self.position.peak} | Margin: {self.position.margin}")
+            print(f"{dt.today()} - Current P/L: {round(self.position.getProfit(),2) if self.position.getProfit() is not None else None} | Peak P/L: {round(self.position.peak,2) if self.position.peak is not None else None} | Margin: {round(self.position.margin,2) if self.position.margin is not None else None}")
             closed, msg = self.position.check()
             print(msg)
             if closed: # i.e if the position actually was closed
@@ -386,7 +388,10 @@ class Trader:
         if not auto:
             for stock in stocks:
                 print(f"{stock.ticker}: ")
-                yn = input()
+                print(f"\t-Price: {stock.price}")
+                print(f"\t-Change: {stock.change}%")
+                print(f"\t-Volume: {stock.volume}")
+                yn = input("Y/N: ")
                 if yn.lower() == 'y':
                     pick = stock.ticker
                     break
