@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.options import Options
 from time import sleep
 from selenium.common.exceptions import JavascriptException
 from string import ascii_letters
+from keys import Keys
 def convertNums(datum):
     for i in datum:
         print(i)
@@ -30,9 +31,9 @@ class Executor():
         while not loggedIn:
             try:
                 username = self.browser.find_element_by_id("username-real")
-                username.send_keys("trading213.3@gmail.com")
+                username.send_keys(Keys.get("t212Username"))
                 password = self.browser.find_element_by_id("pass-real")
-                password.send_keys("Btrbtr12")
+                password.send_keys(Keys.get("t212Password"))
                 password.submit()
                 loggedIn = True
             except JavascriptException:

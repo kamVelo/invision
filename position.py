@@ -6,9 +6,11 @@ import pandas as pd
 import requests
 import finnhub
 import pytz
+from keys import Keys
 class Position:
     def __init__(self,symbol,direction, trader):
-        self.finnhub_client = finnhub.Client(api_key="c4hsvkiad3ifj3t4ktf0")
+        key = Keys.get("finnhub")
+        self.finnhub_client = finnhub.Client(api_key=key)
         self.direction = direction
         self.posId = None
         self.trader = trader

@@ -96,7 +96,7 @@ class Trader:
         self.newDay = False
 
         if len(self.executor.getPositions()) > 0: # i.e there is a position left open from the day before for whatever reason
-            print("Positions are currently open. Close them you fuck.")
+            print("Positions are currently open.")
         self.run()
     def run(self):
 
@@ -183,7 +183,7 @@ class Trader:
 
         if len(
                 self.executor.getPositions()) > 0:  # i.e there is a position left open from the day before for whatever reason
-            print("Positions are currently open. Close them you fuck.")
+            print("Positions are currently open.")
     def trade(self):
         """
         called every hour to do a trade

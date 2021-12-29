@@ -32,12 +32,15 @@ def getT212Stocks():
     """this while loop accounts for the loading time regardless of internet speeds"""
     sleep(3)
     loggedIn = False
+    from keys import Keys
+    username = Keys.get("t212Username")
+    password = Keys.get("t212Password")
     while not loggedIn:
         try:
             username = browser.find_element_by_id("username-real")
-            username.send_keys("trading213.3@gmail.com")
+            username.send_keys(username)
             password = browser.find_element_by_id("pass-real")
-            password.send_keys("Btrbtr12")
+            password.send_keys(password)
             password.submit()
             loggedIn = True
         except JavascriptException:

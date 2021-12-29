@@ -9,9 +9,11 @@ import atexit
 from position import Position
 import finnhub
 import os
+from keys import Keys
 class IB(EClient,EWrapper):
     def __init__(self):
-        self.finnhub_client = finnhub.Client(api_key="c4hsvkiad3ifj3t4ktf0")
+        key = Keys.get("finnhub")
+        self.finnhub_client = finnhub.Client(api_key=key)
         self.pnlReqId = 1
         self.profit_requested = None
         self.positionReceived = False

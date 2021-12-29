@@ -5,7 +5,7 @@ import os
 from string import ascii_letters
 import io
 import random
-
+from keys import Keys
 def randomString(length = 6):
     alphas = list(ascii_letters) + list(range(0,10))
     word = ""
@@ -43,13 +43,14 @@ def download(symbol:str):
         file.close()
         i += 1
 def getFeature(symbol:str):
-    price_url = "https://financialmodelingprep.com/api/v3/historical-chart/5min/"+symbol+"?apikey=f5055ef580a960d76b89560fe64d1e33"
+    fmPrep = Keys.get("fmPrep")
+    price_url = "https://financialmodelingprep.com/api/v3/historical-chart/5min/"+symbol+"?apikey=" + fmPrep
     if len(symbol) < 6:# if the symbol is shorter than 6 characters (i.e a stock)
-        rsi_url = "https://financialmodelingprep.com/api/v3/technical_indicator/5min/"+symbol+"?period=14&type=rsi&apikey=f5055ef580a960d76b89560fe64d1e33"
+        rsi_url = "https://financialmodelingprep.com/api/v3/technical_indicator/5min/"+symbol+"?period=14&type=rsi&apikey=" + fmPrep
         df = pd.read_json(rq.get(rsi_url).content)[["close", "rsi"]].iloc[0:12,:].iloc[::-1]
     elif len(symbol) == 6:
         rsi_url = "https://www.alphavantage.co/query?function=RSI&symbol=%s&interval=5min&time_period=14&series_type=close&apikey=%s&datatype=csv&outputsize=full" % (symbol, randomString(9))
-        price_url = "https://financialmodelingprep.com/api/v3/historical-chart/5min/" + symbol + "?apikey=f5055ef580a960d76b89560fe64d1e33"
+        price_url = "https://financialmodelingprep.com/api/v3/historical-chart/5min/" + symbol + "?apikey=" + fmPrep
         df = pd.DataFrame(data=pd.read_json(rq.get(price_url).content)["close"], columns=["close"])
         rsi_df = pd.read_csv(io.StringIO(rq.get(rsi_url).content.decode('utf-8')))["RSI"]
         df["rsi"] = rsi_df
