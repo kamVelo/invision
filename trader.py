@@ -17,6 +17,7 @@ import pytz
 # TODO: add info to stock options
 # TODO: Solve "closing one, opening another" problem
 # TODO: invest half liquid cash
+# TODO: add trend/range classifierl;
 class Trader:
     def __init__(self):
         self.beginning = True
@@ -30,18 +31,12 @@ class Trader:
             self.symbol = self.getStock(auto=True)
         elif getset.upper() == "F":
             ny = pytz.timezone("America/New_York")
-            getStockTime = dt(2021, 9, 13, 10, 0, tzinfo=ny).time()
+            getStockTime = dt(2021, 9, 13, 10, 5, tzinfo=ny).time() # get stock at 10:05 new york time. This allows for 15 minute time delay as well as 20 minutes of trading
             dontGet = dt(2021, 9, 13, 16, 30, tzinfo=ny).time()
             timeToGet = lambda: getStockTime <= dt.now().astimezone(ny).time() < dontGet
             while not timeToGet():
                 pass
             self.symbol = self.getStock(auto=True)
-
-
-
-
-
-
         else:
             print("Invalid input. Closing Program.")
             exit(0)

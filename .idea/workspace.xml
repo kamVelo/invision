@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="ba9ca176-4104-4ec8-b4cb-0113a53cb3f9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AAPL/dset.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AAPL/rsi.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/getInstrument.py" beforeDir="false" afterPath="$PROJECT_DIR$/getInstrument.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trader.py" beforeDir="false" afterPath="$PROJECT_DIR$/trader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -233,13 +236,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1619210049142</updated>
-    </task>
-    <task id="LOCAL-00010" summary="added getMargin() and fixed order()">
-      <created>1621524853183</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1621524853183</updated>
     </task>
     <task id="LOCAL-00011" summary="added comments">
       <created>1621525590447</created>
@@ -577,7 +573,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640806425807</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="got rid of token">
+      <created>1640806512370</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1640806512370</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -598,7 +601,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fixed close-position bug" />
     <MESSAGE value="changed yahoo_fin to finnhub" />
     <MESSAGE value="added requirements.txt list" />
     <MESSAGE value="trader only works during market open" />
@@ -623,7 +625,8 @@
     <MESSAGE value="fixed" />
     <MESSAGE value="obscured keys and classifier.py" />
     <MESSAGE value="added data" />
-    <option name="LAST_COMMIT_MESSAGE" value="added data" />
+    <MESSAGE value="got rid of token" />
+    <option name="LAST_COMMIT_MESSAGE" value="got rid of token" />
   </component>
   <component name="WindowStateProjectService">
     <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1635194751590">
@@ -638,10 +641,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="441" y="87" key="#xdebugger.evaluate/0.0.1280.680@0.0.1280.680" timestamp="1635192419391" />
-    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1640806425440">
+    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1640806511869">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1640806425440" />
+    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1640806511869" />
     <state x="122" y="50" key="DiffContextDialog" timestamp="1635027953276">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -650,22 +653,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="420" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1640804366428" />
-    <state width="1259" height="160" key="GridCell.Tab.0.bottom" timestamp="1640806428245">
+    <state width="1259" height="160" key="GridCell.Tab.0.bottom" timestamp="1641282012147">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="160" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1640806428245" />
-    <state width="1259" height="160" key="GridCell.Tab.0.center" timestamp="1640806428245">
+    <state width="1259" height="160" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1641282012147" />
+    <state width="1259" height="160" key="GridCell.Tab.0.center" timestamp="1641282012147">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="160" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1640806428245" />
-    <state width="1259" height="160" key="GridCell.Tab.0.left" timestamp="1640806428244">
+    <state width="1259" height="160" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1641282012147" />
+    <state width="1259" height="160" key="GridCell.Tab.0.left" timestamp="1641282012147">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="160" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1640806428244" />
-    <state width="1259" height="160" key="GridCell.Tab.0.right" timestamp="1640806428245">
+    <state width="1259" height="160" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1641282012147" />
+    <state width="1259" height="160" key="GridCell.Tab.0.right" timestamp="1641282012147">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1259" height="160" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1640806428245" />
+    <state width="1259" height="160" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1641282012147" />
     <state width="1259" height="204" key="GridCell.Tab.1.bottom" timestamp="1635199178465">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -690,10 +693,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1640805205940" />
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1640805414477">
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1642144517808">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1640805414477" />
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1642144517808" />
     <state x="180" y="439" key="com.intellij.ide.util.TipDialog/0.0.720.1240@0.0.720.1240" timestamp="1635024448536" />
     <state x="450" y="258" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1635192568372">
       <screen x="0" y="0" width="1280" height="680" />
