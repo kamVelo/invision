@@ -74,40 +74,34 @@ def getMovers():
     opts.headless = False
     browser = Chrome(options=opts)
     browser.get(url)
-
-    # tries to collect all the stocks being shown
-    # exception for if the accept cookies button pops up before it has collected all the stocks
-    try:
-        # dark and light because finviz divides the stocks into two different classes alternately per row
-        darkstocks = browser.execute_script("return document.getElementsByClassName('table-dark-row-cp')")
-        lightstocks = browser.execute_script("return document.getElementsByClassName('table-light-row-cp')")
-    except Exception:  # just in case the cookies pop-up is too quick, clicks on accept
-        browser.find_element_by_xpath('//*[text()="Read more to accept preferences 1/3"]').click()
-        sleep(1)
-        browser.find_element_by_xpath('//*[@title="Scroll to the bottom of the text below to enable this button"]').click()
-    ret_list = []  # list of Stock objects to be appended
-    # for loop iterates through length of the stock (assumes both lists are equal length, which they are for now)
-    for i in range(0, len(darkstocks)):
-        # gets a pair (i.e no. 1 and no.2)
-        try: # if screener returns odd list there will not be both dark and light stock for the pair so only return black stock (black rows are always odd)
-            pair = [darkstocks[i], lightstocks[i]]
-        except IndexError:
-            if i < len(darkstocks):
-                pair = [darkstocks[i]]
-            else:
-                pair = []
-        # for both stocks append their Stock objects to the return list.
-        for stock in pair:
-            data = stock.text.split("\n")
-            try:
-                s = Stock(data[1], float(data[-3]))
-                s.change = float(data[-2].replace("%",""))
-                s.volume = int(data[-1].replace(",",""))
-                ret_list.append(s)
-            except IndexError:
-                pass
+    browser.maximize_window()
+    browser.execute_script("window.scrollTo(0,200);")
+    script = """ 
+    stock_table = document.getElementsByTagName('tr')[40];
+    stocks = stock_table.getElementsByTagName('tr');
+    let arr = Array.from(stocks);
+    return arr;
+    """
+    raw_stocks = browser.execute_script(script)[1:]
+    stocks = []
+    for raw_stock in raw_stocks:
+        try:
+            ticker = raw_stock.find_elements_by_tag_name("td")[1].text
+            price = float(raw_stock.find_elements_by_tag_name("td")[8].text)
+            change = float(raw_stock.find_elements_by_tag_name("td")[9].text[:-1])
+            volume = float(raw_stock.find_elements_by_tag_name("td")[10].text.replace(",",""))
+            stock = Stock(ticker,price)
+            stock.change = change
+            stock.volume = volume
+            stocks.append(stock)
+        except ValueError:
+            print(raw_stock.text)
+    changes = [abs(stk.change) for stk in stocks]
+    avgChange = sum(changes)/len(changes)
+    stocks = [stk for stk in stocks if abs(stk.change) < avgChange]
     browser.close()
-    return ret_list
+    return stocks
+
 
 def getT212Primary():
     """
@@ -122,7 +116,4 @@ def getT212Primary():
 if __name__ == "__main__":
     instruments = getMovers()
     for instrument in instruments:
-        print(instrument.ticker,end=" - ")
-        print(instrument.price,end=" - ")
-        print(instrument.change,end=" - ")
-        print(instrument.volume)
+        print(instrument.ticker)
